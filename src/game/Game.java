@@ -23,15 +23,21 @@ public class Game extends StateBasedGame {
     public static void main(String[] args) throws SlickException {
 
         org.newdawn.slick.Game g;
+        int screenWidth;
+        int screenHeight;
 
-        if(args.equals("edit")) {
+        if(args.length > 0 && args[0].equals("editor")) {
             g = new Editor();
+            screenWidth = 880;
+            screenHeight = 480;
         } else {
             g = new Game();
+            screenWidth = 640;
+            screenHeight = 480;
         }
 
         AppGameContainer app = new AppGameContainer(g);
-        app.setDisplayMode(640,480,false);
+        app.setDisplayMode(screenWidth,screenHeight,false);
         app.start();
     }
 }
