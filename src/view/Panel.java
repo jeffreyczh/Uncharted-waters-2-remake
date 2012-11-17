@@ -47,7 +47,7 @@ public abstract class Panel {
 
         Rectangle bound = getMouseInteractBound();
 
-        if(bound.contains(x, y)) {
+        if(bound != null && bound.contains(x, y)) {
             row = (int) ((y - bound.getY()) / 16);
             col = (int) ((x - bound.getX()) / 16);
             onMouseOver(input);

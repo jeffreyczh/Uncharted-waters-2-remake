@@ -14,9 +14,9 @@ public class MapEditPanel extends Panel {
     private SidePanel sidePanel;
     private MapPanel mapPanel;
 
-    public MapEditPanel(int x, int y, SpriteSheet tiles) {
+    public MapEditPanel(int x, int y, int width, int height, SpriteSheet tiles) {
         super(x, y, tiles);
-        mapPanel = new MapPanel(tiles);
+        mapPanel = new MapPanel(x, y, width, height, tiles);
     }
 
     public void render() {
@@ -33,8 +33,8 @@ public class MapEditPanel extends Panel {
         if(input.isMouseButtonDown(0)) {
             int selection = sidePanel.getSelection();
             if(selection != UNDEFINED) {
-                mapPanel.world.setTile(mapPanel.worldX + col,
-                                       mapPanel.worldY + row,
+                mapPanel.world.setTile((int)mapPanel.worldX + col,
+                                       (int)mapPanel.worldY + row,
                                        (byte) selection);
             }
         }

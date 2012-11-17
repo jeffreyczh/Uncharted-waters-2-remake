@@ -11,31 +11,35 @@ public class MapPanel {
 
     final World world;
     private Rectangle worldWindowBound;
-    int worldX;
-    int worldY;
+    private int x;
+    private int y;
+    private int height;
+    private int width;
+    double worldX;
+    double worldY;
 
-    public MapPanel(SpriteSheet tiles) {
+    public MapPanel(int x, int y, int width, int height, SpriteSheet tiles) {
         world = new World(tiles);
-        worldWindowBound = new Rectangle(0, 0, 640, 480);
+        worldWindowBound = new Rectangle(x, y, width, height);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
     public void render() {
-        world.render(worldX, worldY, (int)worldWindowBound.getWidth(), (int)worldWindowBound.getHeight());
+        world.render(worldX, worldY, x, y, width, height);
     }
 
     public Rectangle getMouseInteractBound() {
         return worldWindowBound;
     }
 
-    public void moveX(int amount) {
-        if(amount < 0) {
-            worldX = Math.max(0, worldX + amount);
-        } else {
-            worldX = Math.min(2117, worldX + amount);
-        }
+    public void moveX(double amount) {
+        worldX += amount;
     }
 
-    public void moveY(int amount) {
+    public void moveY(double amount) {
         if(amount < 0) {
             worldY = Math.max(0, worldY + amount);
         } else {

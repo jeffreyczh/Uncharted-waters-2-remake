@@ -32,12 +32,14 @@ public class Game extends StateBasedGame {
             screenHeight = 480;
         } else {
             g = new Game();
-            screenWidth = 640;
+            screenWidth = 928;
             screenHeight = 480;
         }
 
         AppGameContainer app = new AppGameContainer(g);
         app.setDisplayMode(screenWidth,screenHeight,false);
+        app.setMaximumLogicUpdateInterval(16);
+        app.setMinimumLogicUpdateInterval(16);
         app.start();
     }
 }

@@ -31,7 +31,7 @@ public class Editor extends BasicGame {
      */
     public void init(GameContainer gameContainer) throws SlickException {
         SpriteSheet tiles = new SpriteSheet("asset/tiles.png", SPRITE_SIZE, SPRITE_SIZE);
-        mapEditPanel = new MapEditPanel(0, 0, tiles);
+        mapEditPanel = new MapEditPanel(0, 0, 640, 480, tiles);
         sidePanel = new SidePanel(640, 0, tiles, mapEditPanel.getWorld());
 
         mapEditPanel.setSidePanel(sidePanel);

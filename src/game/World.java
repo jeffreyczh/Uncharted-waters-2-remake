@@ -11,10 +11,8 @@ import java.net.URLDecoder;
  */
 public class World {
 
-    public static final int OUT_OF_BOUND = -1;
-
-    private static final int WIDTH = 2158;
-    private static final int HEIGHT = 1080;
+    public static final int WIDTH = 2158;
+    public static final int HEIGHT = 1080;
     private static final String LOCATION = "asset/map";
 
     private final byte[][] map;
@@ -26,28 +24,39 @@ public class World {
         read(getDefaultMapFile());
     }
 
-    public void render(int x, int y, int screenWidth, int screenHeight) {
+    public void render(double worldX, double worldY, int x, int y, int screenWidth, int screenHeight) {
 
-        int numRow = screenHeight / sheet.getSubImage(0,0).getHeight();
-        int numCol = screenWidth / sheet.getSubImage(0,0).getWidth();
+        int numRow = screenHeight / sheet.getSubImage(0,0).getHeight() + 1;
+        int numCol = screenWidth / sheet.getSubImage(0,0).getWidth() + 1;
+
+        int upperLeftX = (int) Math.floor(worldX);
+        int upperLeftY = (int) Math.floor(worldY);
+
+        int offsetX = (int) ((worldX - upperLeftX) * 16);
+        int offsetY = (int) ((worldY - upperLeftY) * 16);
 
         for(int row = 0; row < numRow; row++) {
             for(int col = 0; col < numCol; col++) {
-                int id = map[row + y][col + x] & 0xff;
-                int sprite_row = id / 10;
-                int sprite_col = id % 10;
-                sheet.getSubImage(sprite_col, sprite_row).draw(col * 16, row * 16);
+
+                if(upperLeftY + row < HEIGHT) {
+
+                    int id = map[row + upperLeftY][((int) wrapCol(col + upperLeftX))];
+                    int sprite_row = id / 10;
+                    int sprite_col = id % 10;
+
+                    sheet.getSubImage(sprite_col, sprite_row).draw((x - offsetX + col * 16),
+                                                                   (y - offsetY + row * 16));
+                }
             }
         }
     }
 
-    public int getTile(int col, int row) {
+    public boolean isSea(int col, int row) {
 
-        if(col < 0 || col >= WIDTH || row < 0 || row >= HEIGHT) {
-            return OUT_OF_BOUND;
-        } else {
-            return (map[row][col] & 0xff);
-        }
+        if(row < 0 || row >= HEIGHT)
+            return false;
+
+        return Tile.isSea(map[row][((int) wrapCol(col))]);
     }
 
     public void setTile(int col, int row, byte id) {
@@ -74,6 +83,9 @@ public class World {
                 if(input.read(map[row]) != WIDTH) {
                     throw new IOException();
                 }
+                for(int col = 0; col < WIDTH; col++) {
+                    map[row][col] = (byte) (map[row][col] & 0xff);
+                }
             }
             input.close();
         } catch (IOException e) {
@@ -85,7 +97,7 @@ public class World {
     private File getDefaultMapFile() {
 
         String decodedPath = null;
-        /*try {
+        try {
             String path = World.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             path = path.substring(0, path.lastIndexOf('/'));
             decodedPath = URLDecoder.decode(path, "UTF-8");
@@ -94,8 +106,7 @@ public class World {
         } catch (UnsupportedEncodingException e) {
             System.out.println("IO ERROR");
             System.exit(1);
-        }*/
-        decodedPath = LOCATION;
+        }
 
         return new File(decodedPath);
     }
@@ -116,5 +127,18 @@ public class World {
         } catch (IOException e) {
             System.err.println("IO Error");
         }
+    }
+
+    public double wrapCol(double x) {
+
+        double col = x;
+
+        if(x < 0) {
+            col = x + WIDTH;
+        } else if(x >= WIDTH) {
+            col = x - WIDTH;
+        }
+
+        return col;
     }
 }
