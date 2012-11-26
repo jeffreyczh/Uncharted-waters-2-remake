@@ -1,26 +1,26 @@
 package view;
 
-import game.World;
-import org.newdawn.slick.SpriteSheet;
+import game.Map;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public class MapPanel {
+public abstract class MapPanel {
 
-    final World world;
-    private Rectangle worldWindowBound;
+    private Map map;
+    private Rectangle mapWindowBound;
     private int x;
     private int y;
     private int height;
     private int width;
-    double worldX;
-    double worldY;
+    public double mapX;
+    public double mapY;
 
-    public MapPanel(int x, int y, int width, int height, SpriteSheet tiles) {
-        world = new World(tiles);
-        worldWindowBound = new Rectangle(x, y, width, height);
+    public MapPanel(int x, int y, int width, int height, Map map) throws SlickException {
+        this.map = map;
+        mapWindowBound = new Rectangle(x, y, width, height);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -28,22 +28,22 @@ public class MapPanel {
     }
 
     public void render() {
-        world.render(worldX, worldY, x, y, width, height);
+        map.render(mapX, mapY, x, y, width, height);
     }
 
     public Rectangle getMouseInteractBound() {
-        return worldWindowBound;
+        return mapWindowBound;
     }
 
-    public void moveX(double amount) {
-        worldX += amount;
+    public abstract void moveX(double amount);
+
+    public abstract void moveY(double amount);
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 
-    public void moveY(double amount) {
-        if(amount < 0) {
-            worldY = Math.max(0, worldY + amount);
-        } else {
-            worldY = Math.min(1049, worldY + amount);
-        }
+    public Map getMap() {
+        return map;
     }
 }

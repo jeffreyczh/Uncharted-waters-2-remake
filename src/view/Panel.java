@@ -1,6 +1,7 @@
 package view;
 
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -9,14 +10,13 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public abstract class Panel {
 
-    static final int UNDEFINED = -1;
+    protected static final int UNDEFINED = -1;
 
     /**
      * The x, y coordinate of the panel
      */
-    final int x;
-    final int y;
-    SpriteSheet tiles;
+    protected final int x;
+    protected final int y;
 
     /**
      * The row and column where the cursor is on
@@ -24,12 +24,11 @@ public abstract class Panel {
     public int row;
     public int col;
 
-    public Panel(int x, int y, SpriteSheet tiles) {
+    public Panel(int x, int y) {
         this.x = x;
         this.y = y;
         this.col = UNDEFINED;
         this.row = UNDEFINED;
-        this.tiles = tiles;
     }
 
     /**
@@ -43,7 +42,7 @@ public abstract class Panel {
      * @param x the x coordinate of the mouse
      * @param y the y coordinate of the mouse
      */
-    public void update(Input input, int x, int y) {
+    public void update(Input input, int x, int y) throws SlickException {
 
         Rectangle bound = getMouseInteractBound();
 

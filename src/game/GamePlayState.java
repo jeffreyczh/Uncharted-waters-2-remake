@@ -28,10 +28,10 @@ public class GamePlayState extends BasicGameState {
     }
 
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        sailingPanel = new SailingPanel(128,0, new SpriteSheet("asset/tiles.png", 16, 16));
+        sailingPanel = new SailingPanel(128,0);
         Player player = new Player(START_X, START_Y, new SpriteSheet("asset/mainship.png", 32, 32));
         sailingPanel.setPlayer(player);
-        envPanel = new EnvironmentStatusPanel(768, 0, null);
+        envPanel = new EnvironmentStatusPanel(768, 0);
         calendar = new Calendar(new Rule(1501,2,27));
 
     }

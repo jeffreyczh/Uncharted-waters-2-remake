@@ -1,28 +1,23 @@
 package editor;
 
 import org.newdawn.slick.*;
-import view.MapEditPanel;
-import view.SidePanel;
+import view.editorPanels.EditPanel;
+import view.editorPanels.EditSidePanel;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public class Editor extends BasicGame {
+public abstract class Editor extends BasicGame {
 
-    private static final int SPRITE_SIZE = 16;
+    private EditPanel editPanel;
+    private EditSidePanel sidePanel;
 
-    private MapEditPanel mapEditPanel;
-    private SidePanel sidePanel;
-
-    private int x;
-    private int y;
-
-    public Editor() {
-        super("Map editor");
+    public Editor(String name) {
+        super(name);
     }
 
     /**
-     * This method initialize the Map Editor Interface
+     * This method initialize the Map PortEditor Interface
      * The map panel is the panel on the left of the editor
      * The side panel is the panel on the right
      *
@@ -30,16 +25,15 @@ public class Editor extends BasicGame {
      * @throws SlickException
      */
     public void init(GameContainer gameContainer) throws SlickException {
-        SpriteSheet tiles = new SpriteSheet("asset/tiles.png", SPRITE_SIZE, SPRITE_SIZE);
-        mapEditPanel = new MapEditPanel(0, 0, 640, 480, tiles);
-        sidePanel = new SidePanel(640, 0, tiles, mapEditPanel.getWorld());
+        editPanel = getEditPanel();
+        sidePanel = getSidePanel(editPanel);
 
-        mapEditPanel.setSidePanel(sidePanel);
+        editPanel.setSidePanel(sidePanel);
     }
 
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+        editPanel.render(graphics, gameContainer.getScreenHeight());
         sidePanel.render(graphics);
-        mapEditPanel.render();
     }
 
     /**
@@ -48,20 +42,25 @@ public class Editor extends BasicGame {
      *
      * @param gameContainer
      * @param i the amount of the time past after last update
-     * @throws SlickException
+     * @throws org.newdawn.slick.SlickException
      */
     public void update(GameContainer gameContainer, int i) throws SlickException {
 
         Input input = gameContainer.getInput();
 
         sidePanel.update(input, input.getMouseX(), input.getMouseY());
-        mapEditPanel.update(input, input.getMouseX(), input.getMouseY());
+        editPanel.update(input, input.getMouseX(), input.getMouseY());
 
         if(!(gameContainer.getInput().isMouseButtonDown(0))) {
-            if(input.isKeyDown(Input.KEY_W)) mapEditPanel.moveY(-1);
-            if(input.isKeyDown(Input.KEY_S)) mapEditPanel.moveY(1);
-            if(input.isKeyDown(Input.KEY_A)) mapEditPanel.moveX(-1);
-            if(input.isKeyDown(Input.KEY_D)) mapEditPanel.moveX(1);
+            if(input.isKeyDown(Input.KEY_W)) editPanel.moveY(-1);
+            if(input.isKeyDown(Input.KEY_S)) editPanel.moveY(1);
+            if(input.isKeyDown(Input.KEY_A)) editPanel.moveX(-1);
+            if(input.isKeyDown(Input.KEY_D)) editPanel.moveX(1);
         }
     }
+
+    abstract EditPanel getEditPanel() throws SlickException;
+
+    abstract EditSidePanel getSidePanel(EditPanel panel) throws SlickException;
+
 }

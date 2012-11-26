@@ -8,7 +8,7 @@ import view.MapPanel;
  */
 public class Player {
 
-    private World world;
+    private Map world;
     private SpriteSheet sheet;
 
     private double x;
@@ -103,19 +103,19 @@ public class Player {
         int floorX1 = (int) Math.floor(x + 1.99);
         int floorY1 = (int) Math.floor(y + 1.99);
 
-        boolean valid = world.isSea(floorX, floorY);
-        valid &= world.isSea(floorX + 1, floorY);
-        valid &= world.isSea(floorX1, floorY);
-        valid &= world.isSea(floorX1, floorY + 1);
-        valid &= world.isSea(floorX1, floorY1);
-        valid &= world.isSea(floorX + 1, floorY1);
-        valid &= world.isSea(floorX, floorY1);
-        valid &= world.isSea(floorX, floorY + 1);
+        boolean valid = world.isEnterable(floorX, floorY);
+        valid &= world.isEnterable(floorX + 1, floorY);
+        valid &= world.isEnterable(floorX1, floorY);
+        valid &= world.isEnterable(floorX1, floorY + 1);
+        valid &= world.isEnterable(floorX1, floorY1);
+        valid &= world.isEnterable(floorX + 1, floorY1);
+        valid &= world.isEnterable(floorX, floorY1);
+        valid &= world.isEnterable(floorX, floorY + 1);
 
         return valid;
     }
 
-    public void setWorld(World world) {
+    public void setWorld(Map world) {
         this.world = world;
     }
 

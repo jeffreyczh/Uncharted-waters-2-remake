@@ -4,10 +4,9 @@ import game.Direction;
 import game.Player;
 import game.World;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
-import view.MapEditPanel;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
+import utils.MapManager;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
@@ -21,15 +20,15 @@ public class SailingPanel extends Panel {
     private Player player;
     private MapPanel mapPanel;
 
-    public SailingPanel(int x, int y, SpriteSheet tiles) throws SlickException {
-        super(x, y, tiles);
-        mapPanel = new MapPanel(x, y, WIDTH, HEIGHT, tiles);
+    public SailingPanel(int x, int y) throws SlickException {
+        super(x, y);
+        mapPanel = new WorldMapPanel(x, y, WIDTH, HEIGHT, MapManager.getInstance().buildWorld());
 
     }
 
     public void render() {
         mapPanel.render();
-        player.render(x, y, mapPanel.worldX, mapPanel.worldY);
+        player.render(x, y, mapPanel.mapX, mapPanel.mapY);
     }
 
     public void update(Input input) {
@@ -62,12 +61,12 @@ public class SailingPanel extends Panel {
     public void setPlayer(Player player) {
 
         this.player = player;
-        player.setWorld(mapPanel.world);
+        player.setWorld(mapPanel.getMap());
 
         int playerX = (int) Math.floor(player.getX());
         int playerY = (int) Math.floor(player.getY());
 
-        mapPanel.worldX = Math.max(0, playerX - 20);
-        mapPanel.worldY = Math.max(0, playerY - 15);
+        mapPanel.mapX = Math.max(0, playerX - 20);
+        mapPanel.mapY = Math.max(0, playerY - 15);
     }
 }

@@ -17,8 +17,8 @@ public class EnvironmentStatusPanel extends Panel {
 
     private Rectangle bound;
 
-    public EnvironmentStatusPanel(int x, int y, SpriteSheet tiles) {
-        super(x, y, tiles);
+    public EnvironmentStatusPanel(int x, int y) {
+        super(x, y);
         this.bound = new Rectangle(x, y, WIDTH, HEIGHT);
     }
 

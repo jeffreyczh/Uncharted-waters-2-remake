@@ -1,10 +1,15 @@
-package view;
+package view.buttons;
 
-import game.World;
+import game.Map;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
+import view.MapPanel;
+import view.editorPanels.EditSidePanel;
+
+import static utils.MapManager.MAP_TYPE;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
@@ -14,18 +19,22 @@ public abstract class Button {
     private static final int WIDTH = 100;
     private static final int HEIGHT = 32;
 
-    World world;
     private SpriteSheet sheet;
     private Rectangle bound;
     private int id;
     private boolean hovered;
     private boolean clicked;
+    MAP_TYPE type;
+    EditSidePanel panel;
+    MapPanel mapPanel;
 
-    public Button(int id, int x, int y, World world, SpriteSheet sheet) {
+    public Button(int id, int x, int y, MAP_TYPE type, SpriteSheet sheet, EditSidePanel panel, MapPanel mapPanel) {
         bound = new Rectangle(x, y, WIDTH, HEIGHT);
         this.id = id;
-        this.world = world;
         this.sheet = sheet;
+        this.type = type;
+        this.panel = panel;
+        this.mapPanel = mapPanel;
         hovered = false;
     }
 
@@ -43,7 +52,7 @@ public abstract class Button {
         graphics.setColor(saved);
     }
 
-    public abstract void click();
+    public abstract void click() throws SlickException;
 
     public void hover(boolean hovered) {
         this.hovered = hovered;
