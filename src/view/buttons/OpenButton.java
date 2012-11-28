@@ -1,14 +1,10 @@
 package view.buttons;
 
-import game.Map;
-import game.World;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import utils.MapManager;
+import utils.MapBuilder;
+import utils.Utils;
 import view.MapPanel;
 import view.editorPanels.EditSidePanel;
-
-import static utils.MapManager.MAP_TYPE;
 
 import javax.swing.*;
 import java.io.File;
@@ -18,21 +14,19 @@ import java.io.File;
  */
 public class OpenButton extends Button {
 
-    public OpenButton(int x, int y, MAP_TYPE type, SpriteSheet sheet, EditSidePanel panel, MapPanel mapPanel) {
-        super(0, x, y, type, sheet, panel, mapPanel);
+    public OpenButton(int x, int y, SpriteSheet sheet, EditSidePanel panel,
+                      MapPanel mapPanel, MapBuilder mapBuilder) {
+        super(0, x, y, sheet, panel, mapPanel, mapBuilder);
     }
 
     @Override
-    public void click() throws SlickException {
+    public void click() {
         JFileChooser chooser = new JFileChooser();
-        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+        chooser.setCurrentDirectory(Utils.getFile(mapBuilder.getDefaultMapFile().getPath()));
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
-            if(file.canRead()) {
-                if(type == MAP_TYPE.PORT) {
-                    mapPanel.setMap(MapManager.getInstance().buildPort(file));
-                } else if(type == MAP_TYPE.WORLD) {
-                    mapPanel.setMap(MapManager.getInstance().buildWorld(file));
-                }
+            if (file.canRead()) {
+                mapPanel.setGameMap(mapBuilder.buildMap(file));
                 panel.setFile(file);
             } else {
                 System.err.println("Cannot open file: file cannot be read");

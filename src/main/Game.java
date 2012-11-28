@@ -1,8 +1,11 @@
-package game;
+package main;
 
 import editor.MapEditor;
 import editor.PortEditor;
-import org.newdawn.slick.*;
+import game.GamePlayState;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
@@ -18,7 +21,7 @@ public class Game extends StateBasedGame {
     }
 
     public void initStatesList(GameContainer gameContainer) throws SlickException {
-        addState(new GamePlayState(0));
+        addState(new GamePlayState(GAME_PLAY_STATE));
     }
 
     public static void main(String[] args) throws SlickException {
@@ -27,24 +30,24 @@ public class Game extends StateBasedGame {
         int screenWidth = 0;
         int screenHeight = 0;
 
-        if(args.length > 0) {
-            if(args[0].equals("map_editor")) {
+        if (args.length > 0) {
+            if (args[0].equals("map_editor")) {
                 g = new MapEditor();
                 screenWidth = 880;
                 screenHeight = 480;
-            } else if(args[0].equals("port_editor")) {
+            } else if (args[0].equals("port_editor")) {
                 g = new PortEditor();
                 screenWidth = 1248;
                 screenHeight = 752;
             }
         } else {
             g = new Game();
-            screenWidth = 928;
-            screenHeight = 480;
+            screenWidth = 640;
+            screenHeight = 400;
         }
 
         AppGameContainer app = new AppGameContainer(g);
-        app.setDisplayMode(screenWidth,screenHeight,false);
+        app.setDisplayMode(screenWidth, screenHeight, false);
         app.setMaximumLogicUpdateInterval(16);
         app.setMinimumLogicUpdateInterval(16);
         app.start();

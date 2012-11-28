@@ -1,8 +1,5 @@
 package game;
 
-import org.newdawn.slick.Input;
-import view.SailingPanel;
-
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
@@ -25,11 +22,11 @@ public class Calendar {
         time = 8;
     }
 
-    public void tick(SailingPanel panel, Input input) {
+    public void tick() {
 
         count++;
 
-        if (count == 3) {
+        if (count == 25) {
 
             int remainder;
 
@@ -46,8 +43,6 @@ public class Calendar {
             yearChange(remainder);
 
             count = 0;
-
-            panel.update(input);
         }
     }
 
@@ -68,7 +63,7 @@ public class Calendar {
 
         if (month == 2) {
             daysInMonth = DAYS_IN_FEB;
-            if(isLeapYear()) daysInMonth += 1;
+            if (isLeapYear()) daysInMonth += 1;
         } else if (isThirtyDays(month)) {
             daysInMonth = 30;
         } else if (!isThirtyDays(month)) {

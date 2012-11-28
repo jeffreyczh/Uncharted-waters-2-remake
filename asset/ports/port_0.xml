@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<port_info>
+    <general>
+        <entry_point>54,69</entry_point>
+        <speciality>
+            <id>0</id>
+        </speciality>
+        <bussiness_investment>0</bussiness_investment>
+        <industrial_investment>0</industrial_investment>
+    </general>
+    <npcs>
+        <npc>
+            <type>GUY</type>
+            <location>0,0</location>
+        </npc>
+    </npcs>
+    <buildings>
+        <buliding>
+            <type>MARKET</type>
+            <location>0,0</location>
+            <product_list>
+                <product>
+                    <id>0</id>
+                    <price>34</price>
+                </product>
+            </product_list>
+        </buliding>
+    </buildings>
+</port_info>

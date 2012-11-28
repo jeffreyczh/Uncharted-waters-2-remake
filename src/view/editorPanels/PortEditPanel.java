@@ -1,7 +1,8 @@
 package view.editorPanels;
 
-import game.Map;
-import org.newdawn.slick.*;
+import game.GameMap;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import view.PortMapPanel;
 
 /**
@@ -9,8 +10,8 @@ import view.PortMapPanel;
  */
 public class PortEditPanel extends EditPanel {
 
-    public PortEditPanel(int x, int y, int width, int height, Map map) throws SlickException {
-        super(x, y, new PortMapPanel(x, y, width, height, map));
+    public PortEditPanel(int x, int y, int width, int height, GameMap gameMap) {
+        super(x, y, new PortMapPanel(x, y, width, height, gameMap));
     }
 
     @Override

@@ -1,6 +1,12 @@
 package editor;
 
-import org.newdawn.slick.*;
+import game.NPCFactory;
+import game.PlaceFactory;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import utils.ResourceManager;
 import view.editorPanels.EditPanel;
 import view.editorPanels.EditSidePanel;
 
@@ -22,16 +28,17 @@ public abstract class Editor extends BasicGame {
      * The side panel is the panel on the right
      *
      * @param gameContainer
-     * @throws SlickException
      */
-    public void init(GameContainer gameContainer) throws SlickException {
-        editPanel = getEditPanel();
-        sidePanel = getSidePanel(editPanel);
+    public void init(GameContainer gameContainer) {
+        ResourceManager resourceManager = new ResourceManager();
+        initMapBuilder(resourceManager, new PlaceFactory(), new NPCFactory(resourceManager));
 
+        editPanel = getEditPanel();
+        sidePanel = getSidePanel(editPanel, resourceManager);
         editPanel.setSidePanel(sidePanel);
     }
 
-    public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+    public void render(GameContainer gameContainer, Graphics graphics) {
         editPanel.render(graphics, gameContainer.getScreenHeight());
         sidePanel.render(graphics);
     }
@@ -41,26 +48,27 @@ public abstract class Editor extends BasicGame {
      * Keyboard input will be blocked if the left mouse button is pressed
      *
      * @param gameContainer
-     * @param i the amount of the time past after last update
-     * @throws org.newdawn.slick.SlickException
+     * @param i             the amount of the time past after last update
      */
-    public void update(GameContainer gameContainer, int i) throws SlickException {
+    public void update(GameContainer gameContainer, int i) {
 
         Input input = gameContainer.getInput();
 
         sidePanel.update(input, input.getMouseX(), input.getMouseY());
         editPanel.update(input, input.getMouseX(), input.getMouseY());
 
-        if(!(gameContainer.getInput().isMouseButtonDown(0))) {
-            if(input.isKeyDown(Input.KEY_W)) editPanel.moveY(-1);
-            if(input.isKeyDown(Input.KEY_S)) editPanel.moveY(1);
-            if(input.isKeyDown(Input.KEY_A)) editPanel.moveX(-1);
-            if(input.isKeyDown(Input.KEY_D)) editPanel.moveX(1);
+        if (!(gameContainer.getInput().isMouseButtonDown(0))) {
+            if (input.isKeyDown(Input.KEY_W)) editPanel.moveY(-1);
+            if (input.isKeyDown(Input.KEY_S)) editPanel.moveY(1);
+            if (input.isKeyDown(Input.KEY_A)) editPanel.moveX(-1);
+            if (input.isKeyDown(Input.KEY_D)) editPanel.moveX(1);
         }
     }
 
-    abstract EditPanel getEditPanel() throws SlickException;
+    abstract void initMapBuilder(ResourceManager resourceManager, PlaceFactory placeFactory, NPCFactory npcFactory);
 
-    abstract EditSidePanel getSidePanel(EditPanel panel) throws SlickException;
+    abstract EditPanel getEditPanel();
+
+    abstract EditSidePanel getSidePanel(EditPanel panel, ResourceManager resourceManager);
 
 }

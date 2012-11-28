@@ -3,7 +3,7 @@ package game;
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public interface Map {
+public interface GameMap {
 
     public void render(double mapX, double mapY, int x, int y, int screenWidth, int screenHeight);
 
@@ -11,7 +11,7 @@ public interface Map {
 
     public double wrapCol(double x);
 
-    public boolean isEnterable(int x, int y);
+    public boolean isEnterable(int x, int y, Direction dir);
 
     public int getHeight();
 

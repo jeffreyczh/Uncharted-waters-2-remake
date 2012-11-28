@@ -1,8 +1,7 @@
 package view;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
@@ -39,14 +38,14 @@ public abstract class Panel {
      * field will be set to @see UNDEFINED
      *
      * @param input the input object of slick library
-     * @param x the x coordinate of the mouse
-     * @param y the y coordinate of the mouse
+     * @param x     the x coordinate of the mouse
+     * @param y     the y coordinate of the mouse
      */
-    public void update(Input input, int x, int y) throws SlickException {
+    public void update(Input input, int x, int y) {
 
         Rectangle bound = getMouseInteractBound();
 
-        if(bound != null && bound.contains(x, y)) {
+        if (bound != null && bound.contains(x, y)) {
             row = (int) ((y - bound.getY()) / 16);
             col = (int) ((x - bound.getX()) / 16);
             onMouseOver(input);
@@ -69,4 +68,8 @@ public abstract class Panel {
      * @param input
      */
     public abstract void onMouseOver(Input input);
+
+    public void render(Graphics graphics) {
+
+    }
 }

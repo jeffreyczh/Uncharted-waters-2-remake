@@ -1,8 +1,9 @@
-﻿<ports>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ports>
 	<port>
-    <map_id>0</map_id>
-	<name>里斯本</name>
-	<location>120,358</location>
-	<entry_point>54,69</entry_point>
+        <map_id>0</map_id>
+	    <name>里斯本</name>
+	    <location>120,358</location>
+	    <entry_point>54,69</entry_point>
 	</port>
 </ports>

@@ -1,15 +1,12 @@
 package view.buttons;
 
-import game.Map;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
+import utils.MapBuilder;
 import view.MapPanel;
 import view.editorPanels.EditSidePanel;
-
-import static utils.MapManager.MAP_TYPE;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
@@ -24,27 +21,29 @@ public abstract class Button {
     private int id;
     private boolean hovered;
     private boolean clicked;
-    MAP_TYPE type;
-    EditSidePanel panel;
-    MapPanel mapPanel;
 
-    public Button(int id, int x, int y, MAP_TYPE type, SpriteSheet sheet, EditSidePanel panel, MapPanel mapPanel) {
+    protected EditSidePanel panel;
+    protected MapPanel mapPanel;
+    protected MapBuilder mapBuilder;
+
+    public Button(int id, int x, int y, SpriteSheet sheet, EditSidePanel panel,
+                  MapPanel mapPanel, MapBuilder mapBuilder) {
         bound = new Rectangle(x, y, WIDTH, HEIGHT);
         this.id = id;
         this.sheet = sheet;
-        this.type = type;
         this.panel = panel;
         this.mapPanel = mapPanel;
+        this.mapBuilder = mapBuilder;
         hovered = false;
     }
 
     public void render(Graphics graphics) {
-        sheet.getSubImage(0,id).draw(bound.getX(), bound.getY());
+        sheet.getSubImage(0, id).draw(bound.getX(), bound.getY());
         Color saved = graphics.getColor();
-        if(hovered) {
+        if (hovered) {
             graphics.setColor(new Color(0, 0, 0, 0.3f));
             graphics.fillRect(bound.getX(), bound.getY(), bound.getWidth(), bound.getHeight());
-        } else if(clicked) {
+        } else if (clicked) {
             graphics.setColor(new Color(0, 0, 0, 0.7f));
             graphics.fillRect(bound.getX(), bound.getY(), bound.getWidth(), bound.getHeight());
         }
@@ -52,7 +51,7 @@ public abstract class Button {
         graphics.setColor(saved);
     }
 
-    public abstract void click() throws SlickException;
+    public abstract void click();
 
     public void hover(boolean hovered) {
         this.hovered = hovered;

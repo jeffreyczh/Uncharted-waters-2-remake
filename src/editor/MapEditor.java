@@ -1,39 +1,43 @@
 package editor;
 
-import game.Map;
-import org.newdawn.slick.*;
-import utils.MapManager;
+import game.GameMap;
+import game.NPCFactory;
+import game.PlaceFactory;
+import org.newdawn.slick.SpriteSheet;
+import utils.MapBuilder;
+import utils.ResourceManager;
+import utils.WorldBuilder;
 import view.editorPanels.EditPanel;
 import view.editorPanels.EditSidePanel;
 import view.editorPanels.MapEditPanel;
 import view.editorPanels.MapEditSidePanel;
-
-import java.io.File;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
 public class MapEditor extends Editor {
 
-    public static final int SPRITE_SIZE = 16;
-    public final File mapFile;
-    public Map map;
+    public GameMap gameMap;
+    private MapBuilder mapBuilder;
 
     public MapEditor() {
         super("Map editor");
-        mapFile = MapManager.getInstance().getDefaultWorldFile();
     }
 
-    EditPanel getEditPanel() throws SlickException {
-        map = MapManager.getInstance().buildWorld(mapFile);
-        return new MapEditPanel(0, 0, 640, 480, map);
+    void initMapBuilder(ResourceManager resourceManager, PlaceFactory placeFactory, NPCFactory npcFactory) {
+        this.mapBuilder = new WorldBuilder(resourceManager, placeFactory);
     }
 
-    EditSidePanel getSidePanel(EditPanel panel) throws SlickException {
-        SpriteSheet tiles = new SpriteSheet("asset/tiles.png", SPRITE_SIZE, SPRITE_SIZE);
-        MapEditSidePanel sidePanel = new MapEditSidePanel(640, 0, tiles, map, panel.getMapPanel());
-        sidePanel.setFile(mapFile);
-        return sidePanel;
+    EditPanel getEditPanel() {
+        gameMap = mapBuilder.buildMap(mapBuilder.getDefaultMapFile());
+        return new MapEditPanel(0, 0, 640, 480, gameMap);
+    }
+
+    EditSidePanel getSidePanel(EditPanel panel, ResourceManager resourceManager) {
+        SpriteSheet tiles = resourceManager.worldMapSpriteSheet;
+        MapEditSidePanel mapEditSidePanel = new MapEditSidePanel(640, 0, tiles, resourceManager.editorButtonSheet, panel.getMapPanel(), mapBuilder);
+        mapEditSidePanel.setFile(mapBuilder.getDefaultMapFile());
+        return mapEditSidePanel;
     }
 
 }

@@ -1,7 +1,6 @@
 package view;
 
-import game.Map;
-import org.newdawn.slick.SlickException;
+import game.GameMap;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
@@ -9,7 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public abstract class MapPanel {
 
-    private Map map;
+    private GameMap gameMap;
     private Rectangle mapWindowBound;
     private int x;
     private int y;
@@ -18,8 +17,8 @@ public abstract class MapPanel {
     public double mapX;
     public double mapY;
 
-    public MapPanel(int x, int y, int width, int height, Map map) throws SlickException {
-        this.map = map;
+    public MapPanel(int x, int y, int width, int height, GameMap gameMap) {
+        this.gameMap = gameMap;
         mapWindowBound = new Rectangle(x, y, width, height);
         this.x = x;
         this.y = y;
@@ -28,7 +27,7 @@ public abstract class MapPanel {
     }
 
     public void render() {
-        map.render(mapX, mapY, x, y, width, height);
+        gameMap.render(mapX, mapY, x, y, width, height);
     }
 
     public Rectangle getMouseInteractBound() {
@@ -39,11 +38,11 @@ public abstract class MapPanel {
 
     public abstract void moveY(double amount);
 
-    public void setMap(Map map) {
-        this.map = map;
+    public void setGameMap(GameMap gameMap) {
+        this.gameMap = gameMap;
     }
 
-    public Map getMap() {
-        return map;
+    public GameMap getGameMap() {
+        return gameMap;
     }
 }

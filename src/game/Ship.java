@@ -33,7 +33,7 @@ public class Ship {
 
     private void readDetails(int[] details) {
 
-        assert(details.length == 13);
+        assert (details.length == 13);
 
         maxCap = details[0];
         curCap = details[1];
