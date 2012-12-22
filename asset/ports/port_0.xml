@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<port_info>
-    <general>
+<port>
+    <info>
+        <name>Lisbon</name>
+        <area>Iberia</area>
         <entry_point>54,69</entry_point>
-        <speciality>
-            <id>0</id>
-        </speciality>
-        <bussiness_investment>0</bussiness_investment>
-        <industrial_investment>0</industrial_investment>
-    </general>
+        <speciality>Salt</speciality>
+        <economy>780</economy>
+        <economy_invest>0</economy_invest>
+        <industry>770</industry>
+        <industry_invest>0</industry_invest>
+        <price_index>100</price_index>
+        <country>PORTUGAL</country>
+        <captital>true</captital>
+    </info>
     <npcs>
-        <npc>
-            <type>GUY</type>
-            <location>0,0</location>
+        <npc type="GUY" x="0" y="0">
         </npc>
     </npcs>
     <buildings>
-        <buliding>
-            <type>MARKET</type>
-            <location>0,0</location>
-            <product_list>
-                <product>
-                    <id>0</id>
-                    <price>34</price>
-                </product>
-            </product_list>
-        </buliding>
+        <building type="MARKET" x="0" y="0">
+            <product id="0" price="34">Salt</product>
+        </building>
     </buildings>
-</port_info>
+</port>

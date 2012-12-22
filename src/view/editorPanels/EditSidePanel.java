@@ -2,12 +2,8 @@ package view.editorPanels;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
-import utils.MapBuilder;
-import view.MapPanel;
-import view.Panel;
-import view.buttons.Button;
-import view.buttons.OpenButton;
-import view.buttons.SaveButton;
+import view.buttons.EditorButton;
+import view.mapPanels.Panel;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +16,7 @@ public class EditSidePanel extends Panel {
 
     private Rectangle tileSelectionBound;
     private Image selectSprite;
-    private List<Button> buttons;
+    private List<EditorButton> editorButtons;
     private SpriteSheet tiles;
 
     private int width;
@@ -31,7 +27,7 @@ public class EditSidePanel extends Panel {
     private File mapFile;
 
     public EditSidePanel(int x, int y, int width, int height, int numCol, int maxSelection,
-                                                              SpriteSheet tiles, SpriteSheet buttonSheet) {
+                         SpriteSheet tiles, Image selectSprite) {
         super(x, y);
         selection = UNDEFINED;
         tileSelectionBound = new Rectangle(x + 45, y + 200, tiles.getWidth(), tiles.getHeight());
@@ -41,30 +37,16 @@ public class EditSidePanel extends Panel {
         this.numCol = numCol;
         this.maxSelection = maxSelection;
 
-        buttons = new ArrayList<>();
+        editorButtons = new ArrayList<>();
 
-        selectSprite = buttonSheet.getSubImage(0, 3);
+        this.selectSprite = selectSprite;
     }
 
     @Override
-    public void update(Input input, int x, int y) {
-        super.update(input, x, y);
-        for (Button button : buttons) {
-            if (button.contain(x, y)) {
-                if (input.isMouseButtonDown(0) || input.isMousePressed(0)) {
-                    button.hover(false);
-                    button.press(true);
-                    if (input.isMousePressed(0)) {
-                        button.click();
-                    }
-                } else {
-                    button.hover(true);
-                    button.press(false);
-                }
-            } else {
-                button.hover(false);
-                button.press(false);
-            }
+    public void update(Input input, int mouseX, int mouseY, boolean mouseClicked) {
+        super.update(input, mouseX, mouseY, mouseClicked);
+        for (EditorButton editorButton : editorButtons) {
+            editorButton.update(input, mouseX, mouseY, mouseClicked);
         }
     }
 
@@ -72,8 +54,8 @@ public class EditSidePanel extends Panel {
         graphics.setColor(Color.white);
         graphics.fillRect(x, y, width, height);
 
-        for (Button button : buttons) {
-            button.render(graphics);
+        for (EditorButton editorButton : editorButtons) {
+            editorButton.render(graphics);
         }
 
         selectSprite.draw(x + 45, y + 164);
@@ -119,9 +101,9 @@ public class EditSidePanel extends Panel {
         return mapFile;
     }
 
-    public void addButton(Button button) {
-        if(button != null) {
-            buttons.add(button);
+    public void addButton(EditorButton editorButton) {
+        if (editorButton != null) {
+            editorButtons.add(editorButton);
         }
     }
 }

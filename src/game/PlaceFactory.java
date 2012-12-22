@@ -1,8 +1,8 @@
 package game;
 
-import game.buildings.*;
+import game.port.buildings.*;
 import org.dom4j.Document;
-import org.dom4j.Node;
+import org.dom4j.Element;
 import utils.Utils;
 
 import java.util.HashMap;
@@ -15,9 +15,9 @@ import java.util.Map;
 public class PlaceFactory {
 
     public enum Building_Type {
-        MARKET, DOCK, DOCKYARD, INN, BAR,
-        BANK, PALACE, ASTROLOGIST_HUT, CHURCH,
-        SHOP, OFFICE
+        MARKET, HARBOUR, SHIPYARD, LODGE, CAFE,
+        BANK, PALACE, FORTUNE_TELLER, CHURCH,
+        SHOP, GUILD, MANSION
     }
 
     public PlaceFactory() {
@@ -30,11 +30,11 @@ public class PlaceFactory {
         Map<Point, Integer> portMap = new HashMap<>();
 
         assert (ports != null);
-        List<Node> portList = ports.selectNodes("/ports/port");
+        List<Element> portList = ports.selectNodes("/ports/port");
 
-        for (Node node : portList) {
+        for (Element node : portList) {
             Point location = Utils.readLocation(node);
-            int portID = Integer.parseInt(node.selectSingleNode("//map_id").getText());
+            int portID = Integer.parseInt(node.attributeValue("id"));
 
             portMap.put(location, portID);
             portMap.put(new Point(location.x + 1, location.y), portID);
@@ -45,38 +45,39 @@ public class PlaceFactory {
         return portMap;
     }
 
-    public Map<Point, Place> getBuildings(List<Node> nodes) {
+    public Map<Point, Place> getBuildings(List<Element> nodes) {
 
         Map<Point, Place> buildings = new HashMap<>();
 
-        for (Node node : nodes) {
+        for (Element node : nodes) {
             Point loc = Utils.readLocation(node);
-            buildings.put(loc, createBuilding(node));
-            buildings.put(new Point(loc.x + 1, loc.y), createBuilding(node));
+            Place building = createBuilding(node);
+            buildings.put(loc, building);
+            buildings.put(new Point(loc.x + 1, loc.y), building);
         }
 
         return buildings;
     }
 
-    private Place createBuilding(Node node) {
+    private Place createBuilding(Element node) {
 
         Place building = null;
 
-        switch (Building_Type.valueOf(node.valueOf("//type"))) {
+        switch (Building_Type.valueOf(node.attributeValue("type"))) {
             case MARKET:
                 building = new Market();
                 break;
-            case DOCK:
-                building = new Dock();
+            case HARBOUR:
+                building = new Harbour();
                 break;
-            case DOCKYARD:
-                building = new Dockyard();
+            case SHIPYARD:
+                building = new Shipyard();
                 break;
-            case INN:
-                building = new Inn();
+            case LODGE:
+                building = new Lodge();
                 break;
-            case BAR:
-                building = new Bar();
+            case CAFE:
+                building = new Cafe();
                 break;
             case BANK:
                 building = new Bank();
@@ -84,8 +85,8 @@ public class PlaceFactory {
             case PALACE:
                 building = new Palace();
                 break;
-            case ASTROLOGIST_HUT:
-                building = new AstrologistHut();
+            case FORTUNE_TELLER:
+                building = new FortuneTeller();
                 break;
             case CHURCH:
                 building = new Church();
@@ -93,8 +94,11 @@ public class PlaceFactory {
             case SHOP:
                 building = new Shop();
                 break;
-            case OFFICE:
-                building = new Office();
+            case GUILD:
+                building = new Guild();
+                break;
+            case MANSION:
+                building = null;
                 break;
         }
 

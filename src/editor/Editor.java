@@ -2,10 +2,7 @@ package editor;
 
 import game.NPCFactory;
 import game.PlaceFactory;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
+import org.newdawn.slick.*;
 import utils.ResourceManager;
 import view.editorPanels.EditPanel;
 import view.editorPanels.EditSidePanel;
@@ -29,7 +26,7 @@ public abstract class Editor extends BasicGame {
      *
      * @param gameContainer
      */
-    public void init(GameContainer gameContainer) {
+    public void init(GameContainer gameContainer) throws SlickException {
         ResourceManager resourceManager = new ResourceManager();
         initMapBuilder(resourceManager, new PlaceFactory(), new NPCFactory(resourceManager));
 
@@ -53,9 +50,10 @@ public abstract class Editor extends BasicGame {
     public void update(GameContainer gameContainer, int i) {
 
         Input input = gameContainer.getInput();
+        boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 
-        sidePanel.update(input, input.getMouseX(), input.getMouseY());
-        editPanel.update(input, input.getMouseX(), input.getMouseY());
+        sidePanel.update(input, input.getMouseX(), input.getMouseY(), mouseClicked);
+        editPanel.update(input, input.getMouseX(), input.getMouseY(), mouseClicked);
 
         if (!(gameContainer.getInput().isMouseButtonDown(0))) {
             if (input.isKeyDown(Input.KEY_W)) editPanel.moveY(-1);

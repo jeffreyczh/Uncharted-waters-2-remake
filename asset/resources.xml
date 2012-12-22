@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <resource type="image" id="BANK">bank.png</resource>
+    <resource type="image" id="CAFE">cafe.png</resource>
+    <resource type="image" id="CHURCH">church.png</resource>
+    <resource type="image" id="HARBOUR">harbour.png</resource>
+    <resource type="image" id="SHIPYARD">shipyard.png</resource>
+    <resource type="image" id="LODGE">lodge.png</resource>
+    <resource type="image" id="MANSION">mansion.png</resource>
+    <resource type="image" id="GUILD">guild.png</resource>
+    <resource type="image" id="PALACE">palace.png</resource>
+    <resource type="image" id="BACKGROUND">background.png</resource>
+    <resource type="image" id="LAND_INTERFACE">land_interface.png</resource>
+    <resource type="image" id="SEA_INTERFACE">sea_interface.png</resource>
+    <resource type="image" id="EDITOR_SELECTED">editor_selected.png</resource>
+    <resource type="spritesheet" id="ANCHOR_BUTTON" width="16" height="16">anchor_button.png</resource>
+    <resource type="spritesheet" id="CREW_BUTTON" width="22" height="80">crew_button.png</resource>
+    <resource type="spritesheet" id="FLEET_BUTTON" width="22" height="80">fleet_button.png</resource>
+    <resource type="spritesheet" id="INFO_BUTTON" width="22" height="80">info_button.png</resource>
+    <resource type="spritesheet" id="NAVIGATION_BUTTON" width="22" height="80">navigation_button.png</resource>
+    <resource type="spritesheet" id="LEFT_ARROW" width="24" height="40">left_arrow.png</resource>
+    <resource type="spritesheet" id="RIGHT_ARROW" width="24" height="40">right_arrow.png</resource>
+    <resource type="spritesheet" id="UP_ARROW" width="40" height="24">up_arrow.png</resource>
+    <resource type="spritesheet" id="DOWN_ARROW" width="40" height="24">down_arrow.png</resource>
+    <resource type="spritesheet" id="PORT_TILES" width="16" height="16">portTile.png</resource>
+    <resource type="spritesheet" id="WORLD_TILES" width="16" height="16">tiles.png</resource>
+    <resource type="spritesheet" id="MENU" width="8" height="8">menu.png</resource>
+    <resource type="spritesheet" id="EDITOR_OPEN_BUTTON" width="100" height="32">editor_open_button.png</resource>
+    <resource type="spritesheet" id="EDITOR_SAVE_BUTTON" width="100" height="32">editor_save_button.png</resource>
+    <resource type="spritesheet" id="JF_WALK" width="32" height="32">jf_walk.png</resource>
+    <resource type="spritesheet" id="GUY" width="32" height="32">guy.png</resource>
+    <resource type="spritesheet" id="MAIN_SHIP" width="32" height="32">mainship.png</resource>
+</resources>

@@ -2,6 +2,9 @@ package game;
 
 import org.newdawn.slick.SpriteSheet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
@@ -12,10 +15,15 @@ public class World implements GameMap {
 
     private final byte[][] map;
     private SpriteSheet sheet;
+    private Map<Point, Integer> ports;
+    private MapTransitionController mapTransitionController;
 
-    public World(byte[][] map, SpriteSheet sheet) {
+    public World(byte[][] map, SpriteSheet sheet, Map<Point, Integer> ports,
+                                                  MapTransitionController mapTransitionController) {
         setSpriteSheet(sheet);
         this.map = map;
+        this.ports = ports;
+        this.mapTransitionController = mapTransitionController;
     }
 
     public void render(double mapX, double mapY, int x, int y, int screenWidth, int screenHeight) {
@@ -45,6 +53,13 @@ public class World implements GameMap {
         }
     }
 
+    public boolean isLandable(int col, int row) {
+        if (row < 0 || row >= HEIGHT)
+            return false;
+
+        return Tile.isLand(map[row][((int) wrapCol(col))]);
+    }
+
     public boolean isEnterable(int col, int row, Direction dir) {
 
         if (row < 0 || row >= HEIGHT)
@@ -59,6 +74,17 @@ public class World implements GameMap {
 
     public int getWidth() {
         return WIDTH;
+    }
+
+    public void interact(int x, int y) {
+
+        Point point = new Point(x,y);
+
+        if(ports.containsKey(point)) {
+            mapTransitionController.enterPort(ports.get(point));
+        } else {
+            System.out.println("ship anchor at " + "(" + x + "," + y + ")");
+        }
     }
 
     public void setTile(int col, int row, int id) {

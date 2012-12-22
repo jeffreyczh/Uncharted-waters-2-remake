@@ -7,12 +7,15 @@ import org.newdawn.slick.SpriteSheet;
  */
 public class CharacterUnit extends MoveableUnit {
 
+    private int step;
+
     public CharacterUnit(int x, int y, SpriteSheet sheet) {
         super(x, y, sheet);
 
         //the speed of the characters on the land is always 1
         //to avoid nasty collision problems
         setSpeed(1);
+        step = 0;
     }
 
     /**
@@ -38,8 +41,14 @@ public class CharacterUnit extends MoveableUnit {
 
     @Override
     public void render(int screenX, int screenY, double worldX, double worldY) {
-        sheet.getSubImage(direction.getID(), 0).draw((float) (screenX + (x - worldX) * 16),
+        sheet.getSubImage(direction.getID(), step).draw((float) (screenX + (x - worldX) * 16),
                 (float) (screenY + (y - worldY) * 16));
+    }
+
+    @Override
+    public void move(Direction direction) {
+        super.move(direction);
+        step = step == 0 ? 1 : 0;
     }
 
     public void wonder() {

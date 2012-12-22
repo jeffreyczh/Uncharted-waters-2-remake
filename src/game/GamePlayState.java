@@ -1,27 +1,34 @@
 package game;
 
-import org.newdawn.slick.*;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import utils.PortBuilder;
+import utils.MenuBuilder;
+import game.port.PortBuilder;
 import utils.ResourceManager;
 import utils.WorldBuilder;
-import view.LandNavigatePanel;
-import view.NavigatePanel;
-import view.Panel;
-import view.SeaNavigatePanel;
+import view.gamePanels.IView;
+import view.gamePanels.SeaPanel;
+import view.gamePanels.TownPanel;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public class GamePlayState extends BasicGameState {
+public class GamePlayState extends BasicGameState implements MapTransitionController {
 
     private Calendar calendar;
-    private Panel middlePanel;
     private int id;
     private int counter;
 
-    private ResourceManager resourceManager;
+    private PortBuilder portBuilder;
+
+    private TownPanel townPanel;
+    private SeaPanel seaPanel;
+
+    private IView gamePanel;
 
     public GamePlayState(int id) {
         this.id = id;
@@ -34,26 +41,25 @@ public class GamePlayState extends BasicGameState {
 
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 
-        this.resourceManager = new ResourceManager();
+        ResourceManager resourceManager = new ResourceManager();
         PlaceFactory placeFactory = new PlaceFactory();
         NPCFactory npcFactory = new NPCFactory(resourceManager);
-        PortBuilder portBuilder = new PortBuilder(resourceManager, npcFactory, placeFactory);
-        WorldBuilder worldBuilder = new WorldBuilder(resourceManager, placeFactory);
+        portBuilder = new PortBuilder(resourceManager, npcFactory, placeFactory);
+        WorldBuilder worldBuilder = new WorldBuilder(resourceManager, placeFactory, this);
 
+        MenuBuilder menuBuilder = new MenuBuilder(resourceManager);
 
-        //NavigatePanel navigatePanel = new SeaNavigatePanel(128,0, worldBuilder.buildWorld());
-        NavigatePanel navigatePanel = new LandNavigatePanel(96, 8, portBuilder.buildPort(1));
-        middlePanel = navigatePanel;
-        //MoveableUnit player = new PlayerShip(118, 358, resourceManager.mainShipSpriteSheet);
-        MoveableUnit player = new PlayerCharacter(34, 69, resourceManager.johnSpriteSheet);
-        navigatePanel.setPlayer(player);
+        this.townPanel = new TownPanel(0, 0, portBuilder.buildPort(0), resourceManager, menuBuilder);
+        this.seaPanel = new SeaPanel(0, 0, worldBuilder.buildWorld(), resourceManager, menuBuilder);
+
+        gamePanel = seaPanel;
+
         calendar = new Calendar(new Rule(1501, 2, 27));
 
     }
 
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        middlePanel.render(graphics);
-        resourceManager.interfaceImage.draw(0, 0);
+        gamePanel.render(graphics);
     }
 
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
@@ -62,9 +68,19 @@ public class GamePlayState extends BasicGameState {
 
         calendar.tick();
         if (counter == 3) {
-            middlePanel.update(input, input.getMouseX(), input.getMouseY());
+            gamePanel.update(input, input.getMouseX(), input.getMouseY(), input.isMousePressed(Input.MOUSE_LEFT_BUTTON));
             counter = 0;
         }
         counter++;
+    }
+
+    public void enterPort(int id) {
+        townPanel.enterPort(portBuilder.buildPort(id));
+        gamePanel = townPanel;
+    }
+
+    public void leavePort() {
+        townPanel.leavePort();
+        gamePanel = seaPanel;
     }
 }

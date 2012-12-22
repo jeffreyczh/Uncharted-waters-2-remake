@@ -2,9 +2,8 @@ package editor;
 
 import game.NPCFactory;
 import game.PlaceFactory;
-import org.newdawn.slick.SpriteSheet;
 import utils.MapBuilder;
-import utils.PortBuilder;
+import game.port.PortBuilder;
 import utils.ResourceManager;
 import view.editorPanels.EditPanel;
 import view.editorPanels.EditSidePanel;
@@ -35,9 +34,7 @@ public class PortEditor extends Editor {
     }
 
     EditSidePanel getSidePanel(EditPanel panel, ResourceManager resourceManager) {
-        SpriteSheet tiles = resourceManager.portMapSpriteSheet;
-        PortEditSidePanel sidePanel = new PortEditSidePanel(640, 0, tiles,
-                resourceManager.editorButtonSheet, panel.getMapPanel(), mapBuilder);
+        PortEditSidePanel sidePanel = new PortEditSidePanel(640, 0, panel.getMapPanel(), mapBuilder, resourceManager);
         sidePanel.setFile(mapFile);
         return sidePanel;
     }

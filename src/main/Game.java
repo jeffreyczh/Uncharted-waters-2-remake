@@ -13,7 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class Game extends StateBasedGame {
 
-    private static final float VERSION = 0.02f;
+    private static final String VERSION = "0.1.5";
     private static final int GAME_PLAY_STATE = 0;
 
     public Game() {

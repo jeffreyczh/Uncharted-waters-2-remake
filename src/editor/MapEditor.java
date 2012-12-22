@@ -3,7 +3,6 @@ package editor;
 import game.GameMap;
 import game.NPCFactory;
 import game.PlaceFactory;
-import org.newdawn.slick.SpriteSheet;
 import utils.MapBuilder;
 import utils.ResourceManager;
 import utils.WorldBuilder;
@@ -25,7 +24,7 @@ public class MapEditor extends Editor {
     }
 
     void initMapBuilder(ResourceManager resourceManager, PlaceFactory placeFactory, NPCFactory npcFactory) {
-        this.mapBuilder = new WorldBuilder(resourceManager, placeFactory);
+        this.mapBuilder = new WorldBuilder(resourceManager, placeFactory, null);
     }
 
     EditPanel getEditPanel() {
@@ -34,8 +33,7 @@ public class MapEditor extends Editor {
     }
 
     EditSidePanel getSidePanel(EditPanel panel, ResourceManager resourceManager) {
-        SpriteSheet tiles = resourceManager.worldMapSpriteSheet;
-        MapEditSidePanel mapEditSidePanel = new MapEditSidePanel(640, 0, tiles, resourceManager.editorButtonSheet, panel.getMapPanel(), mapBuilder);
+        MapEditSidePanel mapEditSidePanel = new MapEditSidePanel(640, 0, panel.getMapPanel(), mapBuilder, resourceManager);
         mapEditSidePanel.setFile(mapBuilder.getDefaultMapFile());
         return mapEditSidePanel;
     }

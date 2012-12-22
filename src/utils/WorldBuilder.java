@@ -1,10 +1,9 @@
 package utils;
 
-import game.GameMap;
-import game.PlaceFactory;
-import game.World;
+import game.*;
 
 import java.io.*;
+import java.util.Map;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
@@ -19,11 +18,15 @@ public class WorldBuilder implements MapBuilder {
     private static final String PORTS_LOCATION = "asset/ports/";
     private static final String WORLD_MAP_LOC = "asset/map";
 
+    private MapTransitionController mapTransitionController;
     private ResourceManager resourceManager;
+    private Map<Point, Integer> ports;
 
-    public WorldBuilder(ResourceManager resourceManager, PlaceFactory placeFactory) {
+    public WorldBuilder(ResourceManager resourceManager, PlaceFactory placeFactory,
+                                                         MapTransitionController mapTransitionController) {
         this.resourceManager = resourceManager;
-        placeFactory.getPorts(PORTS_LOCATION + "ports.xml");
+        this.mapTransitionController = mapTransitionController;
+        this.ports = placeFactory.getPorts(PORTS_LOCATION + "ports.xml");
     }
 
     public World buildWorld() {
@@ -70,7 +73,7 @@ public class WorldBuilder implements MapBuilder {
     }
 
     public GameMap buildMap(File file) {
-        return new World(readWorldMap(file), resourceManager.worldMapSpriteSheet);
+        return new World(readWorldMap(file), resourceManager.spriteMap.get("WORLD_TILES"), ports, mapTransitionController);
     }
 
     public void saveMap(GameMap gameMap, File file) {

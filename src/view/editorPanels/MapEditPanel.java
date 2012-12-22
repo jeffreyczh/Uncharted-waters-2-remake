@@ -1,7 +1,7 @@
 package view.editorPanels;
 
 import game.GameMap;
-import view.WorldMapPanel;
+import view.mapPanels.WorldMapPanel;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)

@@ -4,8 +4,13 @@ import game.Point;
 import game.World;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import org.newdawn.slick.AngelCodeFont;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.SlickException;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -15,6 +20,27 @@ import java.net.URLDecoder;
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
 public class Utils {
+
+    private static Utils ourInstance = new Utils();
+
+    public static Utils getInstance() {
+        return ourInstance;
+    }
+
+    private Font font;
+
+    public static Font getFont() {
+        return getInstance().font;
+    }
+
+    private Utils() {
+        try {
+            font = new AngelCodeFont("asset/font/eng.fnt", "asset/font/eng_0.png");
+        } catch (SlickException e) {
+            System.err.println("Font loading error");
+            System.exit(1);
+        }
+    }
 
     public static File getFile(String location) {
 
@@ -48,8 +74,21 @@ public class Utils {
         return document;
     }
 
-    public static Point readLocation(Node node) {
-        String[] portLoc = node.selectSingleNode("//location").getText().split(",");
-        return new Point(Integer.parseInt(portLoc[0]), Integer.parseInt(portLoc[1]));
+    public static Point readLocation(Element e) {
+        return new Point(Integer.parseInt(e.attributeValue("x")), Integer.parseInt(e.attributeValue("y")));
+    }
+
+    public static void drawStringCenter(int x, int y, int width, String string) {
+        drawStringCenter(x, y, width, string, Color.black);
+    }
+
+    public static void drawStringCenter(int x, int y, int width, String string, Color color) {
+        Font font = getFont();
+        font.drawString(x + (width - font.getWidth(string)) / 2, y, string, color);
+    }
+
+    public static void drawStringRightAligned(int x, int y, String string) {
+        Font font = getFont();
+        font.drawString(x - font.getWidth(string), y, string, Color.black);
     }
 }

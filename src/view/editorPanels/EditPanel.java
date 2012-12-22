@@ -5,8 +5,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
-import view.MapPanel;
-import view.Panel;
+import view.mapPanels.MapPanel;
+import view.mapPanels.Panel;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
