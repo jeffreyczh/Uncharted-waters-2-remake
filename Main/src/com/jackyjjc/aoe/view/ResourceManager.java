@@ -51,7 +51,7 @@ public class ResourceManager {
     /*TODO:Hack function, later should change to XML or JSON*/
     public void loadAnimations() {
         //setup the ship animation
-        TextureRegion[][] regions = TextureRegion.split(getTexture("ship.png"), 24, 24);
+        TextureRegion[][] regions = TextureRegion.split(getTexture("ship.png"), 32, 32);
         this.gameAnimationMap.put("ship", new GameAnimation(regions[0], regions[1], regions[2], regions[3], 0.5f, true));
     }
 

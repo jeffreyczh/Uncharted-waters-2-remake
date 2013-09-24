@@ -42,6 +42,32 @@ public class World {
         return ((x >= 0 && x < WIDTH) && (y >= 0 && y < HEIGHT));
     }
 
+    public boolean isAnchorable(int x, int y) {
+
+        if(!contains(x, y)) {
+            Gdx.app.log(getClass().getCanonicalName(), "accessing tile out of boundry");
+            assert false;
+        }
+
+        byte id = mapData[y][x];
+
+        return (id > 50
+                && !(id >= 64 && id <= 69)
+                && !(id >= 71 && id <= 76)
+                && !(id >= 78 && id <= 79)
+                && !(id >= 82 && id <= 83));
+    }
+
+    public boolean isSea(int x, int y) {
+
+        if(!contains(x, y)) {
+            Gdx.app.log(getClass().getCanonicalName(), "accessing tile out of boundry");
+            assert false;
+        }
+
+        return mapData[y][x] <= 50;
+    }
+
     private static final int zeroLongitude = 180;
     private static final int newMapEnd = WIDTH - (WIDTH / 2 - zeroLongitude);
     private static final double tilesPerLongitude = WIDTH / 360.0;
@@ -112,12 +138,24 @@ public class World {
         return WIDTH;
     }
 
+    public int wrapX(int x) {
+
+        x %= WIDTH;
+        if(x < 0) {
+            x += WIDTH;
+        }
+
+        return x;
+    }
+
     /*This is messy*/
 
+    public Entity playerShip;
     public List<Entity> ships;
 
     public void addShips() {
-        ships.add(EntityFactory.buildShip(100, 100));
+        this.playerShip = EntityFactory.buildShip(100, 100);
+        ships.add(this.playerShip);
     }
 
 }

@@ -2,6 +2,7 @@ package com.jackyjjc.aoe.states;
 
 import com.badlogic.gdx.Gdx;
 import com.jackyjjc.aoe.GameGraphics;
+import com.jackyjjc.aoe.game.GameInput;
 import com.jackyjjc.aoe.view.ResourceManager;
 
 /**
@@ -19,7 +20,7 @@ public class MainMenuState extends AbstractState {
     }
 
     @Override
-    public void update() {
+    public void update(GameInput input) {
         enterState(DesktopMasterScreen.StateType.PLAY);
     }
 }

@@ -1,16 +1,4 @@
-package com.jackyjjc.aoe.game;/*
- * Copyright (C) 2013  Junjie CHEN
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; Version 2
- * of the License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- */
+package com.jackyjjc.aoe.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -25,6 +13,7 @@ public class AOE extends Game {
     public ActiveRegion activeRegion;
 
     private DisplayManager displayManager;
+    private HumanController humanController;
 
     public AOE(DisplayManager dm) {
         this.displayManager = dm;
@@ -43,9 +32,10 @@ public class AOE extends Game {
     public void init() {
         this.world = World.buildWorld(Gdx.files.internal("assets/world_map").file());
         this.activeRegion = new ActiveRegion(40, 30, world);
+        this.humanController = new HumanController(world, world.playerShip);
     }
 
-    public void update() {
-
+    public void update(GameInput input) {
+        humanController.update(input);
     }
 }

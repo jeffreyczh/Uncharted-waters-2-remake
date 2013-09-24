@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.jackyjjc.aoe.GameGraphics;
 import com.jackyjjc.aoe.WorldMapRenderer;
+import com.jackyjjc.aoe.game.GameInput;
 import com.jackyjjc.aoe.view.ResourceManager;
 
 /**
@@ -24,17 +25,10 @@ public class GamePlayState extends AbstractState {
     @Override
     public void render(GameGraphics g, float time) {
         worldMapRenderer.render(g, time);
-        g.spriteBatch.begin();
-        g.drawText(aoe.world.getGeoCoordinate(118, 358), 100, 100);
-        g.spriteBatch.end();
     }
 
     @Override
-    public void update() {
-        aoe.update();
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) aoe.activeRegion.moveXBy(1);
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) aoe.activeRegion.moveXBy(-1);
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) aoe.activeRegion.moveYBy(-1);
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) aoe.activeRegion.moveYBy(1);
+    public void update(GameInput input) {
+        aoe.update(input);
     }
 }

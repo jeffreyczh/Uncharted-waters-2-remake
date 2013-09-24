@@ -2,6 +2,7 @@ package com.jackyjjc.aoe.states;
 
 import com.badlogic.gdx.Gdx;
 import com.jackyjjc.aoe.GameGraphics;
+import com.jackyjjc.aoe.game.GameInput;
 import com.jackyjjc.aoe.view.ResourceManager;
 
 import java.text.DecimalFormat;
@@ -58,7 +59,7 @@ public class LoadingState extends AbstractState {
     }
 
     @Override
-    public void update() {
+    public void update(GameInput input) {
 
         /*Load all the sprite and external resources first*/
         boolean finished = resourceManager.update();

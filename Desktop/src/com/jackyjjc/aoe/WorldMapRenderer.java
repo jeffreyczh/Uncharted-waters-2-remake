@@ -53,7 +53,7 @@ public class WorldMapRenderer {
         g.spriteBatch.end();
 
         /*Render sea entity on top of the map*/
-        seaEntityRenderer.render(g, time);
+        seaEntityRenderer.render(g, time, pixelsPerTile);
     }
 
     /**

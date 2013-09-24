@@ -2,6 +2,7 @@ package com.jackyjjc.aoe.states;
 
 import com.jackyjjc.aoe.GameGraphics;
 import com.jackyjjc.aoe.game.AOE;
+import com.jackyjjc.aoe.game.GameInput;
 import com.jackyjjc.aoe.view.ResourceManager;
 
 /**
@@ -13,7 +14,7 @@ public abstract class AbstractState {
 
     public abstract void render(GameGraphics gameGraphics, float time);
 
-    public abstract void update();
+    public abstract void update(GameInput input);
 
     private DesktopMasterScreen masterScreen;
     protected AOE aoe;

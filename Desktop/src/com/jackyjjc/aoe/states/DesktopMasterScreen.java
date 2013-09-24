@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.jackyjjc.aoe.GameGraphics;
 import com.jackyjjc.aoe.game.AOE;
+import com.jackyjjc.aoe.game.GameInput;
 import com.jackyjjc.aoe.view.DisplayManager;
 
 
@@ -26,8 +27,10 @@ public class DesktopMasterScreen implements DisplayManager, Screen {
             this.id = i;
         }
     }
+
     private AbstractState[] gameStates;
     private AbstractState currentState;
+    private GameInput input;
 
     @Override
     public void init(AOE aoe) {
@@ -44,6 +47,9 @@ public class DesktopMasterScreen implements DisplayManager, Screen {
         for (AbstractState s : this.gameStates) {
             s.setMasterScreen(this, aoe);
         }
+
+        this.input = new GameInput();
+        Gdx.input.setInputProcessor(input);
 
         changeState(StateType.LOADING);
     }
@@ -81,9 +87,11 @@ public class DesktopMasterScreen implements DisplayManager, Screen {
 
         while(timeAcc > MILLISEC_PER_TICK) {
             /*FIXME: the time here is possible a bug*/
-            currentState.update();
+            currentState.update(input);
             timeAcc -= MILLISEC_PER_TICK;
+            input.update();
         }
+
 
         timeDiff = (System.currentTimeMillis() - startTime) / 1000.0;
 

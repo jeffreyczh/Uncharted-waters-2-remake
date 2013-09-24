@@ -7,18 +7,19 @@ import com.jackyjjc.aoe.components.Attribute;
 import com.jackyjjc.aoe.components.DirValues;
 import com.jackyjjc.aoe.components.Point;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
 public class Entity {
 
+    private Map<Attribute, List<EntityValueChangeListener>> valueListenerMap;
     private Map<Attribute, Object> components;
 
     public Entity() {
         this.components = new HashMap<Attribute, Object>();
+        this.valueListenerMap = new HashMap<>();
     }
 
     public boolean has(Attribute property) {
@@ -42,23 +43,46 @@ public class Entity {
             case Sprite:
                 assert (o instanceof Texture || o instanceof TextureRegion);
                 components.put(a, o);
+                notifyListeners(a);
                 break;
             case Location:
                 assert o instanceof Point;
                 components.put(a, o);
+                notifyListeners(a);
                 break;
             case Animation:
                 assert o instanceof Animator;
                 components.put(a, o);
+                notifyListeners(a);
                 break;
             case Direction:
                 assert o instanceof DirValues;
                 components.put(a, o);
+                notifyListeners(a);
                 break;
             default:
                 break;
         }
 
         return this;
+    }
+
+    public void listenOn(Attribute a, EntityValueChangeListener l) {
+        List<EntityValueChangeListener> listeners = this.valueListenerMap.get(a);
+        if(listeners == null) {
+            listeners = new LinkedList<EntityValueChangeListener>();
+            this.valueListenerMap.put(a, listeners);
+        }
+
+        listeners.add(l);
+    }
+
+    public void notifyListeners(Attribute a) {
+        List<EntityValueChangeListener> listeners = this.valueListenerMap.get(a);
+        if(listeners != null) {
+            for (EntityValueChangeListener l : listeners) {
+                l.notifyChange(this, a);
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.jackyjjc.aoe.game;
 import com.jackyjjc.aoe.components.Attribute;
 import com.jackyjjc.aoe.components.Point;
 import com.jackyjjc.aoe.entites.Entity;
+import com.jackyjjc.aoe.entites.EntityValueChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public class ActiveRegion {
+public class ActiveRegion implements EntityValueChangeListener {
 
     private World world;
 
@@ -30,32 +31,9 @@ public class ActiveRegion {
 
         this.numX = numX;
         this.numY = numY;
-    }
 
-    public void moveXBy(int x) {
-        this.topLeftX = wrapX(topLeftX + x, world.getWidth());
-    }
-
-    public void moveYBy(int y) {
-
-        /*FIXME: BUG MAP SCROLLING DOWN NOT DOWN ENOUGH*/
-        int rawResult = this.topLeftY + y;
-
-        if(rawResult < 0) {
-            this.topLeftY = 0;
-        } else {
-            this.topLeftY = Math.min(world.getHeight() - numY, rawResult);
-        }
-    }
-
-    private int wrapX(int x, int limit) {
-
-        x %= limit;
-        if(x < 0) {
-            x += limit;
-        }
-
-        return x;
+        w.playerShip.listenOn(Attribute.Location, this);
+        adjustRegionLocation(w.playerShip);
     }
 
     public List<Entity> getShipsInRange() {
@@ -89,7 +67,7 @@ public class ActiveRegion {
         /*need to divide it into two parts to check*/
         } else {
             inside = (topLeftX <= x && x < world.getWidth())
-                    || (0 <= x && x < wrapX(topLeftX + numX, world.getWidth()));
+                    || (0 <= x && x < world.wrapX(topLeftX + numX));
         }
 
         inside &= (topLeftY <= y && y < topLeftY + numY);
@@ -103,11 +81,44 @@ public class ActiveRegion {
 
         for (int y = 0; y < numY; y++) {
             for(int x = 0; x < numX; x++) {
-                tiles[y][x] = world.getTile(wrapX(topLeftX + x, world.getWidth()), topLeftY + y);
+                tiles[y][x] = world.getTile(world.wrapX(topLeftX + x), topLeftY + y);
             }
         }
 
         return tiles;
     }
 
+    public int relativeDistX(int x) {
+
+        int relDist = x - topLeftX;
+
+        if(relDist < 0) {
+            relDist = x + (world.getWidth() - topLeftX);
+        }
+
+        return relDist;
+    }
+
+    @Override
+    public void notifyChange(Entity e, Attribute a) {
+
+        if(a == Attribute.Location) {
+            adjustRegionLocation(e);
+        }
+    }
+
+    public void adjustRegionLocation(Entity ship) {
+
+        Point p  = ship.get(Attribute.Location, Point.class);
+        int halfX = (numX - 2) / 2;
+        int halfY = (numY - 2) / 2;
+
+        if(p.x - topLeftX != halfX) {
+            topLeftX = world.wrapX(p.x - halfX);
+        }
+
+        if(p.y - topLeftY != halfY) {
+            topLeftY = Math.max(p.y - halfY, 0);
+        }
+    }
 }

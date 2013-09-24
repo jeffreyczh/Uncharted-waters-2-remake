@@ -21,7 +21,7 @@ public class SeaEntityRenderer {
         this.activeRegion = a;
     }
 
-    public void render(GameGraphics g, float time) {
+    public void render(GameGraphics g, float time, int pixelsPerTile) {
 
         g.spriteBatch.begin();
             for(Entity e : activeRegion.getShipsInRange()) {
@@ -43,8 +43,8 @@ public class SeaEntityRenderer {
                 }
 
                 g.spriteBatch.draw(t,
-                                   t.getRegionWidth() * (p.x - activeRegion.topLeftX),
-                                   (Gdx.graphics.getHeight() - t.getRegionHeight()) - t.getRegionHeight() * (p.y - activeRegion.topLeftY));
+                                   pixelsPerTile * activeRegion.relativeDistX(p.x),
+                                   (Gdx.graphics.getHeight() - pixelsPerTile) - pixelsPerTile * (p.y - activeRegion.topLeftY));
             }
         g.spriteBatch.end();
     }
