@@ -30,7 +30,7 @@ public class AOE extends Game {
     }
 
     public void init() {
-        this.world = World.buildWorld(Gdx.files.internal("assets/world_map").file());
+        this.world = World.buildWorld(Gdx.files.internal("assets/worldmap").file());
         this.activeRegion = new ActiveRegion(40, 30, world);
         this.humanController = new HumanController(world, world.playerShip);
     }

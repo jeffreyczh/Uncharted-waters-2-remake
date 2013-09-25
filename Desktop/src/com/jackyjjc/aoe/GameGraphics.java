@@ -19,7 +19,7 @@ public class GameGraphics {
         this.resourceManager = ResourceManager.get();
 
         /*Load all the textures*/
-        this.resourceManager.loadTexture("world_tile_set.png");
+        this.resourceManager.loadTexture("tileset.png");
         this.resourceManager.loadTexture("ship.png");
     }
 

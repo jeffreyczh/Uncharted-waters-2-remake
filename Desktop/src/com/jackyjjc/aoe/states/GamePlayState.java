@@ -19,7 +19,7 @@ public class GamePlayState extends AbstractState {
         Gdx.app.log(getClass().getCanonicalName(), "Enter State");
 
         this.worldMapRenderer = new WorldMapRenderer(aoe.activeRegion,
-                                                     rm.getTexture("world_tile_set.png"), 16);
+                                                     rm.getTexture("tileset.png"), 16);
     }
 
     @Override

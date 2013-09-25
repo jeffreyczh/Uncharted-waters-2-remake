@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class World {
 
-    private static final int WIDTH = 2158;
+    private static final int WIDTH = 2160;
     private static final int HEIGHT = 1080;
 
     private final byte[][] mapData;
@@ -42,30 +42,13 @@ public class World {
         return ((x >= 0 && x < WIDTH) && (y >= 0 && y < HEIGHT));
     }
 
-    public boolean isAnchorable(int x, int y) {
-
-        if(!contains(x, y)) {
-            Gdx.app.log(getClass().getCanonicalName(), "accessing tile out of boundry");
-            assert false;
-        }
-
-        byte id = mapData[y][x];
-
-        return (id > 50
-                && !(id >= 64 && id <= 69)
-                && !(id >= 71 && id <= 76)
-                && !(id >= 78 && id <= 79)
-                && !(id >= 82 && id <= 83));
-    }
-
     public boolean isSea(int x, int y) {
-
         if(!contains(x, y)) {
             Gdx.app.log(getClass().getCanonicalName(), "accessing tile out of boundry");
             assert false;
         }
 
-        return mapData[y][x] <= 50;
+        return mapData[y][x] <= 33;
     }
 
     private static final int zeroLongitude = 180;
