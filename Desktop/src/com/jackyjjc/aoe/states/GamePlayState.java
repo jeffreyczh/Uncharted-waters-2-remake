@@ -1,7 +1,6 @@
 package com.jackyjjc.aoe.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.jackyjjc.aoe.GameGraphics;
 import com.jackyjjc.aoe.WorldMapRenderer;
 import com.jackyjjc.aoe.game.GameInput;

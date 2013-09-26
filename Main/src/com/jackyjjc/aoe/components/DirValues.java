@@ -11,5 +11,5 @@ public enum DirValues {
     UPLEFT,
     UPRIGHT,
     DOWNLEFT,
-    DOWNRIGHT;
+    DOWNRIGHT,
 }

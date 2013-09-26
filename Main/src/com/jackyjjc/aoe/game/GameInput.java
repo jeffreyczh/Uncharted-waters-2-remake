@@ -86,8 +86,11 @@ public class GameInput implements InputProcessor {
 
     @Override
     public boolean keyUp(int i) {
-        keys.get(keyMap.get(i)).release();
-        return false;
+        if(keyMap.containsKey(i)) {
+            keys.get(keyMap.get(i)).release();
+        }
+
+        return true;
     }
 
     @Override

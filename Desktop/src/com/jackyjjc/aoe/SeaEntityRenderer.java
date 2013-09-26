@@ -43,8 +43,8 @@ public class SeaEntityRenderer {
                 }
 
                 g.spriteBatch.draw(t,
-                                   pixelsPerTile * activeRegion.relativeDistX(p.x),
-                                   (Gdx.graphics.getHeight() - pixelsPerTile) - pixelsPerTile * (p.y - activeRegion.topLeftY));
+                                   activeRegion.relativeDistX(p.x),
+                                   (Gdx.graphics.getHeight() - pixelsPerTile) - (p.y - activeRegion.topLeftY));
             }
         g.spriteBatch.end();
     }

@@ -8,4 +8,5 @@ public enum Attribute {
     Location,
     Animation,
     Direction,
+    Speed,
 }

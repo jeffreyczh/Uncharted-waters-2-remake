@@ -31,10 +31,11 @@ public class HumanController {
 
         Point p = ship.get(Attribute.Location, Point.class);
 
-        if(input.isKeyDown(key) && isMovableTo(world.wrapX(p.x + dx), p.y + dy)) {
+        if(input.isKeyDown(key) && isMovableTo(world.wrapX(p.x + dx, world.getWidth()), p.y + dy)) {
 
-            p.x = world.wrapX(p.x + dx);
+            p.x = world.wrapX(p.x + dx, world.getWidth());
             p.y += dy;
+            System.out.println(p.x + " " + p.y);
             ship.add(Attribute.Direction, dir);
             ship.add(Attribute.Location, p);
         }
@@ -42,7 +43,7 @@ public class HumanController {
 
     public boolean isMovableTo(int x, int y) {
 
-        int newX = world.wrapX(x + 1);
+        int newX = world.wrapX(x + 1, world.getWidth());
         int newY = y + 1;
 
         boolean valid = world.contains(x, y) && world.isSea(x, y);

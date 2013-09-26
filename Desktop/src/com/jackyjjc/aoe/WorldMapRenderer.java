@@ -10,6 +10,11 @@ import com.jackyjjc.aoe.game.ActiveRegion;
  */
 public class WorldMapRenderer {
 
+    /*
+     *FIXME: This class is coupled with ActiveRegion and world_to_tile Ratio
+     *       It assumes the pixelsPerTile = world_to_tile ratio
+     */
+
     private SeaEntityRenderer seaEntityRenderer;
 
     private TextureRegion[][] tileAtlas;
@@ -18,7 +23,7 @@ public class WorldMapRenderer {
     private ActiveRegion activeRegion;
 
     /**
-     * TODO: Need to fix this if resize is supported
+     * TODO: Need to fix this if resizing is supported
      */
     private int windowHeight;
 
@@ -32,7 +37,6 @@ public class WorldMapRenderer {
         this.seaEntityRenderer = new SeaEntityRenderer(a);
     }
 
-
     public void render(GameGraphics g, float time) {
 
         assert (this.pixelsPerTile != 0);
@@ -41,11 +45,11 @@ public class WorldMapRenderer {
         int[][] tiles = activeRegion.getTilesInRegion();
 
         g.spriteBatch.begin();
-        for(int y = 0; y < activeRegion.numY; y++) {
-            for (int x = 0; x < activeRegion.numX; x++) {
+        for(int y = 0; y < tiles.length; y++) {
+            for (int x = 0; x < tiles[0].length; x++) {
                 g.spriteBatch.draw(lookupSprite(tiles[y][x]),
-                                   x * pixelsPerTile,
-                                   (windowHeight - pixelsPerTile) - y * pixelsPerTile);
+                                   x * pixelsPerTile - activeRegion.xOff,
+                                   (windowHeight - pixelsPerTile) - y * pixelsPerTile + activeRegion.yOff);
             }
         }
 

@@ -12,10 +12,10 @@ import static com.jackyjjc.aoe.components.Attribute.*;
 public class EntityFactory {
 
     public static Entity buildShip(int x, int y) {
-        Entity ship = new Entity()
+        return new Entity()
                 .add(Location, new Point(x, y))
                 .add(Direction, DirValues.DOWN)
-                .add(Animation, new Animator("ship"));
-        return ship;
+                .add(Animation, new Animator("ship"))
+                .add(Speed, 7);
     }
 }
