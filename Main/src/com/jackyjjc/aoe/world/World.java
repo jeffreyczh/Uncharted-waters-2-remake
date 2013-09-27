@@ -25,7 +25,11 @@ public class World {
             return false;
         }
 
-        return mapData[tileY][tileX] <= 33;
+        //System.out.println("moving to: " + p + " which is " + tileX + ", " + tileY + " is " + (mapData[tileY][tileX] <= 33));
+
+        byte id = mapData[tileY][tileX];
+
+        return id <= 33;
     }
 
     /*

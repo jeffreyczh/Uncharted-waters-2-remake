@@ -36,6 +36,8 @@ public class SeaEntityRenderer {
                 Point p = e.get(Location, Point.class);
                 DirValues d = e.get(Direction, DirValues.class);
 
+                //System.out.println(p);
+
                 TextureRegion t = null;
                 if(e.has(Sprite)) {
                     t = e.get(Sprite, TextureRegion.class);
@@ -46,8 +48,9 @@ public class SeaEntityRenderer {
                 }
 
                 g.spriteBatch.draw(t,
-                                   worldViewPort.relativeDistX(p.x()),
-                                   (Gdx.graphics.getHeight() - pixelsPerTile) - (p.y() - worldViewPort.topLeft.y()));
+                                   worldViewPort.relativeDistX(p.x()), //- worldViewPort.xOff,
+                                    //FIXME: figure out why * 2
+                                   (Gdx.graphics.getHeight() - pixelsPerTile * 2) - (p.y() - worldViewPort.topLeft.y()));
             }
         g.spriteBatch.end();
     }

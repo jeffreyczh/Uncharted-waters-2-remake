@@ -19,7 +19,7 @@ public class WorldEntityList {
     public WorldEntityList() {
         this.ships = new LinkedList<>();
 
-        this.playerShip = EntityFactory.buildShip(3000, 2495);
+        this.playerShip = EntityFactory.buildShip(3480, 121);
         this.ships.add(playerShip);
     }
 

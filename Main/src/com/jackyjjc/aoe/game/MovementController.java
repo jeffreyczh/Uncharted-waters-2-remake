@@ -18,6 +18,8 @@ public class MovementController {
     private static final int TICKS_PER_HOUR = 15;
     private static final int UNITS_PER_KNOT = 5;
 
+    private int tick;
+
     private World world;
     private WorldViewPort viewPort;
     private WorldEntityList worldEntityList;
@@ -26,13 +28,15 @@ public class MovementController {
         this.world = world;
         this.viewPort = viewPort;
         this.worldEntityList = list;
+
+        tick = 0;
     }
 
     public void update() {
 
         List<Entity> entities = worldEntityList.getShipsInViewPort(viewPort);
         for (Entity e : entities) {
-            if(e.has(Attribute.Speed) && e.has(Attribute.Location) && e.has(Attribute.Direction)) {
+            if(e.has(Attribute.Speed) && e.has(Attribute.Location) && e.has(Attribute.Direction) && tick == 0) {
 
                 Point p = e.get(Attribute.Location, Point.class);
                 DirValues dir = e.get(Attribute.Direction, DirValues.class);
@@ -77,6 +81,8 @@ public class MovementController {
                     p.dispose();
                 }
             }
+
+            tick = (tick + 1) % 1;
         }
     }
 
@@ -84,16 +90,24 @@ public class MovementController {
 
         assert p != null;
 
+        //System.out.println("========= Check ========");
+
         /*32 is the size of the ship, should define it in the ship property*/
         return isMovableToHelper(p, 0, 0)
+               && isMovableToHelper(p, 16, 0)
                && isMovableToHelper(p, 31, 0)
+               && isMovableToHelper(p, 0, 16)
                && isMovableToHelper(p, 0, 31)
+               && isMovableToHelper(p, 31, 16)
+               && isMovableToHelper(p, 16, 31)
+               && isMovableToHelper(p, 16, 16)
                && isMovableToHelper(p, 31, 31);
     }
 
     private boolean isMovableToHelper(Point p, int dx, int dy) {
 
         boolean valid = Point.isValid(p.x() + dx, p.y() + dy);
+
         if(valid) {
             Point newP = p.add(dx, dy);
             valid &= world.isSea(newP);

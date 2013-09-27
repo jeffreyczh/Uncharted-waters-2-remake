@@ -26,9 +26,6 @@ public class WorldViewPort implements EntityValueChangeListener {
     public int width;
     public int height;
 
-    /*
-     *
-     */
     public int xOff;
     public int yOff;
     public int numXTiles;
