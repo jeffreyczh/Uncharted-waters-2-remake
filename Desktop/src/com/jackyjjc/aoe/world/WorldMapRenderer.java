@@ -1,9 +1,10 @@
-package com.jackyjjc.aoe;
+package com.jackyjjc.aoe.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.jackyjjc.aoe.game.ActiveRegion;
+import com.jackyjjc.aoe.GameGraphics;
+import com.jackyjjc.aoe.SeaEntityRenderer;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
@@ -11,7 +12,7 @@ import com.jackyjjc.aoe.game.ActiveRegion;
 public class WorldMapRenderer {
 
     /*
-     *FIXME: This class is coupled with ActiveRegion and world_to_tile Ratio
+     *FIXME: This class is coupled with WorldViewPort and world_to_tile Ratio
      *       It assumes the pixelsPerTile = world_to_tile ratio
      */
 
@@ -20,21 +21,21 @@ public class WorldMapRenderer {
     private TextureRegion[][] tileAtlas;
     private int pixelsPerTile;
 
-    private ActiveRegion activeRegion;
+    private WorldViewPort worldViewPort;
 
     /**
      * TODO: Need to fix this if resizing is supported
      */
     private int windowHeight;
 
-    public WorldMapRenderer(ActiveRegion a, Texture t, int pixelsPerTile) {
+    public WorldMapRenderer(WorldViewPort a, WorldEntityList e, Texture t, int pixelsPerTile) {
 
-        this.activeRegion = a;
+        this.worldViewPort = a;
         this.windowHeight = Gdx.graphics.getHeight();
 
         setTileAtlas(t, pixelsPerTile);
 
-        this.seaEntityRenderer = new SeaEntityRenderer(a);
+        this.seaEntityRenderer = new SeaEntityRenderer(a, e);
     }
 
     public void render(GameGraphics g, float time) {
@@ -42,18 +43,18 @@ public class WorldMapRenderer {
         assert (this.pixelsPerTile != 0);
         assert (this.tileAtlas != null);
 
-        int[][] tiles = activeRegion.getTilesInRegion();
+        int[][] tiles = worldViewPort.getTilesInRegion();
 
         g.spriteBatch.begin();
         for(int y = 0; y < tiles.length; y++) {
             for (int x = 0; x < tiles[0].length; x++) {
                 g.spriteBatch.draw(lookupSprite(tiles[y][x]),
-                                   x * pixelsPerTile - activeRegion.xOff,
-                                   (windowHeight - pixelsPerTile) - y * pixelsPerTile + activeRegion.yOff);
+                                   x * pixelsPerTile - worldViewPort.xOff,
+                                   (windowHeight - pixelsPerTile) - y * pixelsPerTile + worldViewPort.yOff);
             }
         }
 
-        g.drawText(activeRegion.topLeftX + "," + activeRegion.topLeftY, 10, windowHeight - 20);
+        g.drawText(worldViewPort.topLeft.x() + "," + worldViewPort.topLeft.y(), 10, windowHeight - 20);
         g.spriteBatch.end();
 
         /*Render sea entity on top of the map*/

@@ -3,6 +3,7 @@ package com.jackyjjc.aoe.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.jackyjjc.aoe.view.DisplayManager;
+import com.jackyjjc.aoe.world.*;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
@@ -10,10 +11,12 @@ import com.jackyjjc.aoe.view.DisplayManager;
 public class AOE extends Game {
 
     public World world;
-    public ActiveRegion activeRegion;
+    public WorldViewPort worldViewPort;
+    public WorldEntityList worldEntityList;
 
     private DisplayManager displayManager;
     private HumanController humanController;
+    private MovementController movementController;
 
     public AOE(DisplayManager dm) {
         this.displayManager = dm;
@@ -30,12 +33,23 @@ public class AOE extends Game {
     }
 
     public void init() {
-        this.world = World.buildWorld(Gdx.files.internal("assets/worldmap").file());
-        this.activeRegion = new ActiveRegion(40, 30, world);
-        this.humanController = new HumanController(world, world.playerShip);
+
+        /*Point must be init before initializing other things*/
+        this.world = WorldFactory.buildWorld(Gdx.files.internal("assets/worldmap").file());
+        Point.init(this.world.WIDTH, this.world.HEIGHT);
+        this.worldEntityList = new WorldEntityList();
+
+        this.worldViewPort = new WorldViewPort(40, 30, world);
+        this.worldViewPort.follow(worldEntityList.playerShip);
+
+        this.humanController = new HumanController(worldEntityList.playerShip);
+        this.movementController = new MovementController(world, worldEntityList, worldViewPort);
     }
 
     public void update(GameInput input) {
         humanController.update(input);
+
+        /*update the movement of all the ships*/
+        this.movementController.update();
     }
 }

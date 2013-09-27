@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jackyjjc.aoe.components.Animator;
 import com.jackyjjc.aoe.components.Attribute;
 import com.jackyjjc.aoe.components.DirValues;
-import com.jackyjjc.aoe.components.Point;
+import com.jackyjjc.aoe.world.Point;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -21,7 +21,7 @@ public class Entity {
     private Map<Attribute, Object> components;
 
     public Entity() {
-        this.components = new HashMap<Attribute, Object>();
+        this.components = new HashMap<>();
         this.valueListenerMap = new HashMap<>();
     }
 
@@ -63,6 +63,10 @@ public class Entity {
                 components.put(a, o);
                 notifyListeners(a);
                 break;
+            case Speed:
+                assert o instanceof Integer;
+                components.put(a, o);
+                notifyListeners(a);
             default:
                 break;
         }

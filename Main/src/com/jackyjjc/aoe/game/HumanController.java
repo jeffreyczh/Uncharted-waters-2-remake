@@ -2,55 +2,46 @@ package com.jackyjjc.aoe.game;
 
 import com.jackyjjc.aoe.components.Attribute;
 import com.jackyjjc.aoe.components.DirValues;
-import com.jackyjjc.aoe.components.Point;
 import com.jackyjjc.aoe.entites.Entity;
+import com.jackyjjc.aoe.world.World;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
 public class HumanController {
 
-    private World world;
     private Entity ship;
 
-    public HumanController(World world, Entity ship) {
-        this.world = world;
+    public HumanController(Entity ship) {
         this.ship = ship;
     }
 
     public void update(GameInput input) {
 
-        checkAndMoveShip(input, GameInput.GameKey.UP, 0, -1, DirValues.UP);
-        checkAndMoveShip(input, GameInput.GameKey.DOWN, 0, 1, DirValues.DOWN);
-        checkAndMoveShip(input, GameInput.GameKey.LEFT, -1, 0, DirValues.LEFT);
-        checkAndMoveShip(input, GameInput.GameKey.RIGHT, 1, 0, DirValues.RIGHT);
-    }
+        if(input.isKeyDown(GameInput.GameKey.UP)) {
 
-    public void checkAndMoveShip(GameInput input, GameInput.GameKey key,
-                                 int dx, int dy, DirValues dir) {
+            if(input.isKeyDown(GameInput.GameKey.LEFT)) {
+                ship.add(Attribute.Direction, DirValues.UPLEFT);
+            } else if(input.isKeyDown(GameInput.GameKey.RIGHT)) {
+                ship.add(Attribute.Direction, DirValues.UPRIGHT);
+            } else if(!input.isKeyDown(GameInput.GameKey.DOWN)) {
+                ship.add(Attribute.Direction, DirValues.UP);
+            }
+        } else if(input.isKeyDown(GameInput.GameKey.DOWN)) {
 
-        Point p = ship.get(Attribute.Location, Point.class);
-
-        if(input.isKeyDown(key) && isMovableTo(world.wrapX(p.x + dx, world.getWidth()), p.y + dy)) {
-
-            p.x = world.wrapX(p.x + dx, world.getWidth());
-            p.y += dy;
-            System.out.println(p.x + " " + p.y);
-            ship.add(Attribute.Direction, dir);
-            ship.add(Attribute.Location, p);
+            if(input.isKeyDown(GameInput.GameKey.LEFT)) {
+                ship.add(Attribute.Direction, DirValues.DOWNLEFT);
+            } else if(input.isKeyDown(GameInput.GameKey.RIGHT)) {
+                ship.add(Attribute.Direction, DirValues.DOWNRIGHT);
+            } else if(!input.isKeyDown(GameInput.GameKey.UP)) {
+                ship.add(Attribute.Direction, DirValues.DOWN);
+            }
+        } else if(input.isKeyDown(GameInput.GameKey.LEFT)) {
+            if(!input.isKeyDown(GameInput.GameKey.RIGHT)) {
+                ship.add(Attribute.Direction, DirValues.LEFT);
+            }
+        } else if(input.isKeyDown(GameInput.GameKey.RIGHT)) {
+            ship.add(Attribute.Direction, DirValues.RIGHT);
         }
-    }
-
-    public boolean isMovableTo(int x, int y) {
-
-        int newX = world.wrapX(x + 1, world.getWidth());
-        int newY = y + 1;
-
-        boolean valid = world.contains(x, y) && world.isSea(x, y);
-        valid &= world.contains(newX, y) && world.isSea(newX, y);
-        valid &= world.contains(x, newY) && world.isSea(x, newY);
-        valid &= world.contains(newX, newY) && world.isSea(newX, newY);
-
-        return valid;
     }
 }

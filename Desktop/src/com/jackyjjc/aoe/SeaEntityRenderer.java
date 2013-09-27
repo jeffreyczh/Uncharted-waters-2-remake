@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jackyjjc.aoe.components.Animator;
 import com.jackyjjc.aoe.components.DirValues;
-import com.jackyjjc.aoe.components.Point;
+import com.jackyjjc.aoe.world.Point;
 import com.jackyjjc.aoe.entites.Entity;
-import com.jackyjjc.aoe.game.ActiveRegion;
+import com.jackyjjc.aoe.world.WorldEntityList;
+import com.jackyjjc.aoe.world.WorldViewPort;
 
 import static com.jackyjjc.aoe.components.Attribute.*;
 
@@ -15,16 +16,18 @@ import static com.jackyjjc.aoe.components.Attribute.*;
  */
 public class SeaEntityRenderer {
 
-    private ActiveRegion activeRegion;
+    private WorldViewPort worldViewPort;
+    private WorldEntityList entityList;
 
-    public SeaEntityRenderer(ActiveRegion a) {
-        this.activeRegion = a;
+    public SeaEntityRenderer(WorldViewPort a, WorldEntityList e) {
+        this.worldViewPort = a;
+        this.entityList = e;
     }
 
     public void render(GameGraphics g, float time, int pixelsPerTile) {
 
         g.spriteBatch.begin();
-            for(Entity e : activeRegion.getShipsInRange()) {
+            for(Entity e : entityList.getShipsInViewPort(worldViewPort)) {
 
                 if(!e.has(Location) || !e.has(Direction)) {
                     continue;
@@ -43,8 +46,8 @@ public class SeaEntityRenderer {
                 }
 
                 g.spriteBatch.draw(t,
-                                   activeRegion.relativeDistX(p.x),
-                                   (Gdx.graphics.getHeight() - pixelsPerTile) - (p.y - activeRegion.topLeftY));
+                                   worldViewPort.relativeDistX(p.x()),
+                                   (Gdx.graphics.getHeight() - pixelsPerTile) - (p.y() - worldViewPort.topLeft.y()));
             }
         g.spriteBatch.end();
     }
