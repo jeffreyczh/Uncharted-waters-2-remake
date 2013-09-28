@@ -1,6 +1,7 @@
 package com.jackyjjc.aoe.world;
 
 import com.badlogic.gdx.Gdx;
+import com.jackyjjc.aoe.components.DirValues;
 import com.jackyjjc.aoe.entites.Entity;
 import com.jackyjjc.aoe.entites.EntityFactory;
 

@@ -16,7 +16,7 @@ public class AOE extends Game {
 
     private DisplayManager displayManager;
     private HumanController humanController;
-    private MovementController movementController;
+    private ShipMovementController shipMovementController;
 
     public AOE(DisplayManager dm) {
         this.displayManager = dm;
@@ -43,13 +43,13 @@ public class AOE extends Game {
         this.worldViewPort.follow(worldEntityList.playerShip);
 
         this.humanController = new HumanController(worldEntityList.playerShip);
-        this.movementController = new MovementController(world, worldEntityList, worldViewPort);
+        this.shipMovementController = new ShipMovementController(world, worldEntityList, worldViewPort);
     }
 
     public void update(GameInput input) {
         humanController.update(input);
 
         /*update the movement of all the ships*/
-        this.movementController.update();
+        this.shipMovementController.update();
     }
 }

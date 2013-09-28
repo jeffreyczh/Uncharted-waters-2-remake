@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public class MovementController {
+public class ShipMovementController {
 
     private static final int TICKS_PER_HOUR = 15;
     private static final int UNITS_PER_KNOT = 5;
@@ -24,7 +24,7 @@ public class MovementController {
     private WorldViewPort viewPort;
     private WorldEntityList worldEntityList;
 
-    public MovementController(World world, WorldEntityList list, WorldViewPort viewPort) {
+    public ShipMovementController(World world, WorldEntityList list, WorldViewPort viewPort) {
         this.world = world;
         this.viewPort = viewPort;
         this.worldEntityList = list;
@@ -47,38 +47,57 @@ public class MovementController {
                 /*FIXME: BUG, LOSS PRECISION*/
                 int delta = movement / TICKS_PER_HOUR;
                 int delta45 = (int) (sin45 * delta);
+                double d = 0;
+                Point dest = p;
 
-                Point dest = null;
-                switch (dir) {
-                    case UP:
-                        dest = p.add(0, -delta);
-                        break;
-                    case DOWN:
-                        dest = p.add(0, delta);
-                        break;
-                    case LEFT:
-                        dest = p.add(-delta, 0);
-                        break;
-                    case RIGHT:
-                        dest = p.add(delta, 0);
-                        break;
-                    case UPLEFT:
-                        dest = p.add(-delta45, -delta45);
-                        break;
-                    case UPRIGHT:
-                        dest = p.add(delta45, -delta45);
-                        break;
-                    case DOWNLEFT:
-                        dest = p.add(-delta45, delta45);
-                        break;
-                    case DOWNRIGHT:
-                        dest = p.add(delta45, delta45);
-                        break;
-                }
+                int i = 0;
+                while(i < delta) {
+                    p = dest;
+                    d += sin45;
+                    switch (dir) {
+                        case UP:
+                            dest = p.add(0, -1);
+                            break;
+                        case DOWN:
+                            dest = p.add(0, 1);
+                            break;
+                        case LEFT:
+                            dest = p.add(-1, 0);
+                            break;
+                        case RIGHT:
+                            dest = p.add(1, 0);
+                            break;
+                        case UPLEFT:
+                            if(d >= 1) {
+                                dest = p.add(-1, -1);
+                                d -= 1;
+                            }
+                            break;
+                        case UPRIGHT:
+                            if(d >= 1) {
+                                dest = p.add(1, -1);
+                                d -= 1;
+                            }
+                            break;
+                        case DOWNLEFT:
+                            if(d >= 1) {
+                                dest = p.add(-1, 1);
+                                d -= 1;
+                            }
+                            break;
+                        case DOWNRIGHT:
+                            if(d >= 1) {
+                                dest = p.add(1, 1);
+                                d -= 1;
+                            }
+                            break;
+                    }
 
-                if(isMovableTo(dest)) {
-                    e.add(Attribute.Location, dest);
-                    p.dispose();
+                    if(isMovableTo(dest) && dest != p) {
+                        e.add(Attribute.Location, dest);
+                        p.dispose();
+                    }
+                    i++;
                 }
             }
 
@@ -90,9 +109,7 @@ public class MovementController {
 
         assert p != null;
 
-        //System.out.println("========= Check ========");
-
-        /*32 is the size of the ship, should define it in the ship property*/
+        /* 32 is the size of the ship, should define it in the ship property or JSON file */
         return isMovableToHelper(p, 0, 0)
                && isMovableToHelper(p, 16, 0)
                && isMovableToHelper(p, 31, 0)
