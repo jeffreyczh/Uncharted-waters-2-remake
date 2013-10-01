@@ -1,18 +1,16 @@
 package com.jackyjjc.aoe.game;
 
-import com.jackyjjc.aoe.components.Attribute;
-import com.jackyjjc.aoe.components.DirValues;
-import com.jackyjjc.aoe.entites.Entity;
-import com.jackyjjc.aoe.world.World;
+import com.jackyjjc.aoe.components.Direction;
+import com.jackyjjc.aoe.entites.Ship;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
 public class HumanController {
 
-    private Entity ship;
+    private Ship ship;
 
-    public HumanController(Entity ship) {
+    public HumanController(Ship ship) {
         this.ship = ship;
     }
 
@@ -21,27 +19,27 @@ public class HumanController {
         if(input.isKeyDown(GameInput.GameKey.UP)) {
 
             if(input.isKeyDown(GameInput.GameKey.LEFT)) {
-                ship.add(Attribute.Direction, DirValues.UPLEFT);
+                ship.direction = Direction.UPLEFT;
             } else if(input.isKeyDown(GameInput.GameKey.RIGHT)) {
-                ship.add(Attribute.Direction, DirValues.UPRIGHT);
+                ship.direction = Direction.UPRIGHT;
             } else if(!input.isKeyDown(GameInput.GameKey.DOWN)) {
-                ship.add(Attribute.Direction, DirValues.UP);
+                ship.direction = Direction.UP;
             }
         } else if(input.isKeyDown(GameInput.GameKey.DOWN)) {
 
             if(input.isKeyDown(GameInput.GameKey.LEFT)) {
-                ship.add(Attribute.Direction, DirValues.DOWNLEFT);
+                ship.direction = Direction.DOWNLEFT;
             } else if(input.isKeyDown(GameInput.GameKey.RIGHT)) {
-                ship.add(Attribute.Direction, DirValues.DOWNRIGHT);
+                ship.direction = Direction.DOWNRIGHT;
             } else if(!input.isKeyDown(GameInput.GameKey.UP)) {
-                ship.add(Attribute.Direction, DirValues.DOWN);
+                ship.direction = Direction.DOWN;
             }
         } else if(input.isKeyDown(GameInput.GameKey.LEFT)) {
             if(!input.isKeyDown(GameInput.GameKey.RIGHT)) {
-                ship.add(Attribute.Direction, DirValues.LEFT);
+                ship.direction = Direction.LEFT;
             }
         } else if(input.isKeyDown(GameInput.GameKey.RIGHT)) {
-            ship.add(Attribute.Direction, DirValues.RIGHT);
+            ship.direction = Direction.RIGHT;
         }
     }
 }

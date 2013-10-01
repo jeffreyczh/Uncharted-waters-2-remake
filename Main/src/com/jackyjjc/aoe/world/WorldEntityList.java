@@ -1,8 +1,7 @@
 package com.jackyjjc.aoe.world;
 
-import com.jackyjjc.aoe.components.Attribute;
-import com.jackyjjc.aoe.entites.Entity;
 import com.jackyjjc.aoe.entites.EntityFactory;
+import com.jackyjjc.aoe.entites.Ship;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,8 +12,8 @@ import java.util.List;
  */
 public class WorldEntityList {
 
-    public Entity playerShip;
-    private List<Entity> ships;
+    public Ship playerShip;
+    private List<Ship> ships;
 
     public WorldEntityList() {
         this.ships = new LinkedList<>();
@@ -23,17 +22,13 @@ public class WorldEntityList {
         this.ships.add(playerShip);
     }
 
-    public List<Entity> getShipsInViewPort(WorldViewPort viewPort) {
+    public List<Ship> getShipsInViewPort(WorldViewPort viewPort) {
 
-        List<Entity> list = new ArrayList<>();
+        List<Ship> list = new ArrayList<>();
 
-        for (Entity e : ships) {
+        for (Ship e : ships) {
 
-            if(!e.has(Attribute.Location)) {
-                continue;
-            }
-
-            Point p = e.get(Attribute.Location, Point.class);
+            Point p = e.location;
             if(isInRange(p, viewPort.topLeft, viewPort.width, viewPort.height)) {
                 list.add(e);
             }

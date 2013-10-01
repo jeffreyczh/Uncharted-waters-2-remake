@@ -21,7 +21,7 @@ public class Animator {
         this.time += time;
     }
 
-    public TextureRegion getKeyFrame(DirValues dir) {
+    public TextureRegion getKeyFrame(Direction dir) {
         return animation.getKeyFrame(dir, time);
     }
 }

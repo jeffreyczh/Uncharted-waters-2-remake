@@ -1,11 +1,6 @@
 package com.jackyjjc.aoe.world;
 
-import com.jackyjjc.aoe.components.Attribute;
-import com.jackyjjc.aoe.entites.Entity;
-import com.jackyjjc.aoe.entites.EntityValueChangeListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.jackyjjc.aoe.entites.Ship;
 
 /**
  * This class represents an active region of the world
@@ -14,7 +9,7 @@ import java.util.List;
  *
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public class WorldViewPort implements EntityValueChangeListener {
+public class WorldViewPort {
 
     private World world;
 
@@ -31,6 +26,8 @@ public class WorldViewPort implements EntityValueChangeListener {
     public int numXTiles;
     public int numYTiles;
 
+    private Ship followingShip;
+
     public WorldViewPort(int numXTiles, int numYTiles, World w) {
 
         this.world = w;
@@ -42,8 +39,8 @@ public class WorldViewPort implements EntityValueChangeListener {
         this.height = numYTiles * w.WORLD_TO_TILE_RATIO;
     }
 
-    public void follow(Entity playerShip) {
-        playerShip.listenOn(Attribute.Location, this);
+    public void follow(Ship playerShip) {
+        this.followingShip = playerShip;
         adjustRegionLocation(playerShip);
     }
 
@@ -76,17 +73,9 @@ public class WorldViewPort implements EntityValueChangeListener {
         return relDist;
     }
 
-    @Override
-    public void notifyChange(Entity e, Attribute a) {
+    public void adjustRegionLocation(Ship ship) {
 
-        if(a == Attribute.Location) {
-            adjustRegionLocation(e);
-        }
-    }
-
-    public void adjustRegionLocation(Entity ship) {
-
-        Point p  = ship.get(Attribute.Location, Point.class);
+        Point p  = ship.location;
         int halfX = (width - 32) / 2;
         int halfY = (height - 32) / 2;
 
@@ -100,6 +89,10 @@ public class WorldViewPort implements EntityValueChangeListener {
 
         this.xOff = topLeft.x() % world.WORLD_TO_TILE_RATIO;
         this.yOff = topLeft.y() % world.WORLD_TO_TILE_RATIO;
+    }
+
+    public void update() {
+        adjustRegionLocation(followingShip);
     }
 
 }

@@ -1,7 +1,5 @@
 package com.jackyjjc.aoe.world;
 
-import com.jackyjjc.aoe.components.DirValues;
-
 import java.util.LinkedList;
 import java.util.List;
 

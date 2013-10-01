@@ -47,9 +47,11 @@ public class AOE extends Game {
     }
 
     public void update(GameInput input) {
+
         humanController.update(input);
 
         /*update the movement of all the ships*/
         this.shipMovementController.update();
+        this.worldViewPort.update();
     }
 }

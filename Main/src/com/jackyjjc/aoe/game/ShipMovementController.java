@@ -1,9 +1,8 @@
 package com.jackyjjc.aoe.game;
 
-import com.jackyjjc.aoe.components.Attribute;
-import com.jackyjjc.aoe.components.DirValues;
+import com.jackyjjc.aoe.components.Direction;
+import com.jackyjjc.aoe.entites.Ship;
 import com.jackyjjc.aoe.world.Point;
-import com.jackyjjc.aoe.entites.Entity;
 import com.jackyjjc.aoe.world.WorldEntityList;
 import com.jackyjjc.aoe.world.WorldViewPort;
 import com.jackyjjc.aoe.world.World;
@@ -34,71 +33,69 @@ public class ShipMovementController {
 
     public void update() {
 
-        List<Entity> entities = worldEntityList.getShipsInViewPort(viewPort);
-        for (Entity e : entities) {
-            if(e.has(Attribute.Speed) && e.has(Attribute.Location) && e.has(Attribute.Direction) && tick == 0) {
+        List<Ship> entities = worldEntityList.getShipsInViewPort(viewPort);
+        for (Ship e : entities) {
 
-                Point p = e.get(Attribute.Location, Point.class);
-                DirValues dir = e.get(Attribute.Direction, DirValues.class);
-                int knots = e.get(Attribute.Speed, Integer.class);
-                int movement = knots * UNITS_PER_KNOT;
-                double sin45 = Math.sin(Math.toRadians(45));
+            Point p = e.location;
+            Direction dir = e.direction;
+            int knots = e.speed;
+            int movement = knots * UNITS_PER_KNOT;
+            double sin45 = Math.sin(Math.toRadians(45));
 
-                /*FIXME: BUG, LOSS PRECISION*/
-                int delta = movement / TICKS_PER_HOUR;
-                int delta45 = (int) (sin45 * delta);
-                double d = 0;
-                Point dest = p;
+            /*FIXME: BUG, LOSS PRECISION*/
+            int delta = movement / TICKS_PER_HOUR;
+            int delta45 = (int) (sin45 * delta);
+            double d = 0;
+            Point dest = p;
 
-                int i = 0;
-                while(i < delta) {
-                    p = dest;
-                    d += sin45;
-                    switch (dir) {
-                        case UP:
-                            dest = p.add(0, -1);
-                            break;
-                        case DOWN:
-                            dest = p.add(0, 1);
-                            break;
-                        case LEFT:
-                            dest = p.add(-1, 0);
-                            break;
-                        case RIGHT:
-                            dest = p.add(1, 0);
-                            break;
-                        case UPLEFT:
-                            if(d >= 1) {
-                                dest = p.add(-1, -1);
-                                d -= 1;
-                            }
-                            break;
-                        case UPRIGHT:
-                            if(d >= 1) {
-                                dest = p.add(1, -1);
-                                d -= 1;
-                            }
-                            break;
-                        case DOWNLEFT:
-                            if(d >= 1) {
-                                dest = p.add(-1, 1);
-                                d -= 1;
-                            }
-                            break;
-                        case DOWNRIGHT:
-                            if(d >= 1) {
-                                dest = p.add(1, 1);
-                                d -= 1;
-                            }
-                            break;
-                    }
-
-                    if(isMovableTo(dest) && dest != p) {
-                        e.add(Attribute.Location, dest);
-                        p.dispose();
-                    }
-                    i++;
+            int i = 0;
+            while(i < delta) {
+                p = dest;
+                d += sin45;
+                switch (dir) {
+                    case UP:
+                        dest = p.add(0, -1);
+                        break;
+                    case DOWN:
+                        dest = p.add(0, 1);
+                        break;
+                    case LEFT:
+                        dest = p.add(-1, 0);
+                        break;
+                    case RIGHT:
+                        dest = p.add(1, 0);
+                        break;
+                    case UPLEFT:
+                        if(d >= 1) {
+                            dest = p.add(-1, -1);
+                            d -= 1;
+                        }
+                        break;
+                    case UPRIGHT:
+                        if(d >= 1) {
+                            dest = p.add(1, -1);
+                            d -= 1;
+                        }
+                        break;
+                    case DOWNLEFT:
+                        if(d >= 1) {
+                            dest = p.add(-1, 1);
+                            d -= 1;
+                        }
+                        break;
+                    case DOWNRIGHT:
+                        if(d >= 1) {
+                            dest = p.add(1, 1);
+                            d -= 1;
+                        }
+                        break;
                 }
+
+                if(isMovableTo(dest) && dest != p) {
+                    e.location = dest;
+                    p.dispose();
+                }
+                i++;
             }
 
             tick = (tick + 1) % 1;

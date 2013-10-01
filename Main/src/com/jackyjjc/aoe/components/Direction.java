@@ -5,7 +5,7 @@ import com.jackyjjc.aoe.Tuple;
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public enum DirValues {
+public enum Direction {
 
     UP(),
     DOWN(),

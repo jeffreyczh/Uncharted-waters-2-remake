@@ -85,7 +85,7 @@ public class DesktopMasterScreen implements DisplayManager, Screen {
         timeAcc += delta * 1000 - timeDiff;
         long startTime = System.currentTimeMillis();
 
-        while(timeAcc > MILLISEC_PER_TICK) {
+        while(timeAcc >= MILLISEC_PER_TICK) {
             /*FIXME: the time here is possible a bug*/
             currentState.update(input);
             timeAcc -= MILLISEC_PER_TICK;

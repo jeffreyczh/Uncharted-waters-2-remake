@@ -2,7 +2,7 @@ package com.jackyjjc.aoe.view;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.jackyjjc.aoe.components.DirValues;
+import com.jackyjjc.aoe.components.Direction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class GameAnimation {
 
-    private Map<DirValues, Animation> map;
+    private Map<Direction, Animation> map;
 
     public GameAnimation(TextureRegion[] up, TextureRegion[] down,
                          TextureRegion[] left, TextureRegion[] right, float t, boolean loop) {
@@ -28,15 +28,15 @@ public class GameAnimation {
                         Animation upleft, Animation upright,
                         Animation downleft, Animation downright, boolean loop) {
 
-        this.map = new HashMap<DirValues, Animation>(8);
-        this.map.put(DirValues.UP, up);
-        this.map.put(DirValues.DOWN, down);
-        this.map.put(DirValues.LEFT, left);
-        this.map.put(DirValues.RIGHT, right);
-        this.map.put(DirValues.UPLEFT, upleft);
-        this.map.put(DirValues.UPRIGHT, upright);
-        this.map.put(DirValues.DOWNLEFT, downleft);
-        this.map.put(DirValues.DOWNRIGHT, downright);
+        this.map = new HashMap<Direction, Animation>(8);
+        this.map.put(Direction.UP, up);
+        this.map.put(Direction.DOWN, down);
+        this.map.put(Direction.LEFT, left);
+        this.map.put(Direction.RIGHT, right);
+        this.map.put(Direction.UPLEFT, upleft);
+        this.map.put(Direction.UPRIGHT, upright);
+        this.map.put(Direction.DOWNLEFT, downleft);
+        this.map.put(Direction.DOWNRIGHT, downright);
 
         if(loop) {
             for (Animation a : this.map.values()) {
@@ -45,7 +45,7 @@ public class GameAnimation {
         }
     }
 
-    public TextureRegion getKeyFrame(DirValues dir, float time) {
+    public TextureRegion getKeyFrame(Direction dir, float time) {
         return map.get(dir).getKeyFrame(time);
     }
 }

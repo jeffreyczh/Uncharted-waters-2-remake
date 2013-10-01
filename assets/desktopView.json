@@ -1,0 +1,11 @@
+{
+	"window": {
+		"width": 640,
+		"height": 480
+	},
+
+	"viewport": {
+		"numXTiles": 40,
+		"numYTiles": 30
+	}
+}
