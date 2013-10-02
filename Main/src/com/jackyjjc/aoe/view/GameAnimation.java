@@ -28,15 +28,15 @@ public class GameAnimation {
                         Animation upleft, Animation upright,
                         Animation downleft, Animation downright, boolean loop) {
 
-        this.map = new HashMap<Direction, Animation>(8);
-        this.map.put(Direction.UP, up);
-        this.map.put(Direction.DOWN, down);
-        this.map.put(Direction.LEFT, left);
-        this.map.put(Direction.RIGHT, right);
-        this.map.put(Direction.UPLEFT, upleft);
-        this.map.put(Direction.UPRIGHT, upright);
-        this.map.put(Direction.DOWNLEFT, downleft);
-        this.map.put(Direction.DOWNRIGHT, downright);
+        this.map = new HashMap<>(8);
+        this.map.put(Direction.NORTH, up);
+        this.map.put(Direction.SOUTH, down);
+        this.map.put(Direction.WEST, left);
+        this.map.put(Direction.EAST, right);
+        this.map.put(Direction.NORTHWEST, upleft);
+        this.map.put(Direction.NORTHEAST, upright);
+        this.map.put(Direction.SOUTHWEST, downleft);
+        this.map.put(Direction.SOUTHEAST, downright);
 
         if(loop) {
             for (Animation a : this.map.values()) {

@@ -14,11 +14,13 @@ public class GamePlayState extends AbstractState {
     private WorldMapRenderer worldMapRenderer;
 
     @Override
-    public void init(ResourceManager rm) {
+    public void init() {
+
         Gdx.app.log(getClass().getCanonicalName(), "Enter State");
 
-        this.worldMapRenderer = new WorldMapRenderer(aoe.worldViewPort, aoe.worldEntityList,
-                                                     rm.getTexture("tileset.png"), 16);
+        this.worldMapRenderer = new WorldMapRenderer(aoe.worldViewPort,
+                                                     aoe.worldEntityList,
+                                                     ResourceManager.get().getTexture("tileset.png"), 16);
     }
 
     @Override

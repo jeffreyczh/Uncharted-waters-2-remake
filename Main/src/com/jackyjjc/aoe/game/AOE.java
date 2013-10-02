@@ -2,7 +2,7 @@ package com.jackyjjc.aoe.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.jackyjjc.aoe.view.DisplayManager;
+import com.jackyjjc.aoe.view.IDisplayManager;
 import com.jackyjjc.aoe.world.*;
 
 /**
@@ -14,11 +14,11 @@ public class AOE extends Game {
     public WorldViewPort worldViewPort;
     public WorldEntityList worldEntityList;
 
-    private DisplayManager displayManager;
+    private IDisplayManager displayManager;
     private HumanController humanController;
     private ShipMovementController shipMovementController;
 
-    public AOE(DisplayManager dm) {
+    public AOE(IDisplayManager dm) {
         this.displayManager = dm;
     }
 

@@ -11,7 +11,7 @@ public class EntityFactory {
 
     public static Ship buildShip(int x, int y) {
         return new Ship(Point.get(x, y),
-                        Direction.DOWN,
+                        Direction.SOUTH,
                         new Animator("ship"));
     }
 }

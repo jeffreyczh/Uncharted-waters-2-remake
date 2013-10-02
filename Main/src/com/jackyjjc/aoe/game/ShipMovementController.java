@@ -17,18 +17,15 @@ public class ShipMovementController {
     private static final int TICKS_PER_HOUR = 15;
     private static final int UNITS_PER_KNOT = 5;
 
-    private int tick;
-
     private World world;
     private WorldViewPort viewPort;
     private WorldEntityList worldEntityList;
 
     public ShipMovementController(World world, WorldEntityList list, WorldViewPort viewPort) {
+
         this.world = world;
         this.viewPort = viewPort;
         this.worldEntityList = list;
-
-        tick = 0;
     }
 
     public void update() {
@@ -36,73 +33,42 @@ public class ShipMovementController {
         List<Ship> entities = worldEntityList.getShipsInViewPort(viewPort);
         for (Ship e : entities) {
 
-            Point p = e.location;
-            Direction dir = e.direction;
-            int knots = e.speed;
-            int movement = knots * UNITS_PER_KNOT;
-            double sin45 = Math.sin(Math.toRadians(45));
+            int movementThisHour = e.speed * UNITS_PER_KNOT + e.excessMovement;
+            int movementThisTick = movementThisHour / TICKS_PER_HOUR;
 
-            /*FIXME: BUG, LOSS PRECISION*/
-            int delta = movement / TICKS_PER_HOUR;
-            int delta45 = (int) (sin45 * delta);
-            double d = 0;
-            Point dest = p;
+            /*Save the excess movement that cannot be made this turn*/
+            e.excessMovement = movementThisTick % TICKS_PER_HOUR;
 
-            int i = 0;
-            while(i < delta) {
-                p = dest;
-                d += sin45;
-                switch (dir) {
-                    case UP:
-                        dest = p.add(0, -1);
-                        break;
-                    case DOWN:
-                        dest = p.add(0, 1);
-                        break;
-                    case LEFT:
-                        dest = p.add(-1, 0);
-                        break;
-                    case RIGHT:
-                        dest = p.add(1, 0);
-                        break;
-                    case UPLEFT:
-                        if(d >= 1) {
-                            dest = p.add(-1, -1);
-                            d -= 1;
-                        }
-                        break;
-                    case UPRIGHT:
-                        if(d >= 1) {
-                            dest = p.add(1, -1);
-                            d -= 1;
-                        }
-                        break;
-                    case DOWNLEFT:
-                        if(d >= 1) {
-                            dest = p.add(-1, 1);
-                            d -= 1;
-                        }
-                        break;
-                    case DOWNRIGHT:
-                        if(d >= 1) {
-                            dest = p.add(1, 1);
-                            d -= 1;
-                        }
-                        break;
+            while(movementThisTick >= 1) {
+                Point dest = e.location.add(e.direction.dx, e.direction.dy);
+
+                if(!tryMoveTo(e, dest)) {
+                    /*If it can move in two directions, try to move in only one of them*/
+                    if(Math.abs(e.direction.dx) == Math.abs(e.direction.dy)) {
+                        Point dest1 = e.location.add(e.direction.dx, 0);
+                        Point dest2 = e.location.add(0, e.direction.dy);
+
+                        /*tryMoveTo function actually change e.location, use short circuit to prevent multiple eval*/
+                        boolean temp = tryMoveTo(e, dest1) || tryMoveTo(e, dest2);
+                    }
                 }
-
-                if(isMovableTo(dest) && dest != p) {
-                    e.location = dest;
-                    p.dispose();
-                }
-                i++;
+                movementThisTick--;
             }
-
-            tick = (tick + 1) % 1;
         }
     }
 
-    public boolean isMovableTo(Point p) {
+    private boolean tryMoveTo(Ship ship, Point dest) {
+
+        if(dest != ship.location && isMovableTo(dest)) {
+            ship.location.dispose();
+            ship.location = dest;
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isMovableTo(Point p) {
 
         assert p != null;
 

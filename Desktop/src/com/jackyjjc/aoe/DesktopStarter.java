@@ -3,7 +3,6 @@ package com.jackyjjc.aoe;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.jackyjjc.aoe.game.AOE;
-import com.jackyjjc.aoe.states.DesktopMasterScreen;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)

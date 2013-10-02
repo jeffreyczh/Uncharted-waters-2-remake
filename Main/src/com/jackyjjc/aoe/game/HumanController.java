@@ -19,27 +19,31 @@ public class HumanController {
         if(input.isKeyDown(GameInput.GameKey.UP)) {
 
             if(input.isKeyDown(GameInput.GameKey.LEFT)) {
-                ship.direction = Direction.UPLEFT;
+                ship.direction = Direction.NORTHWEST;
             } else if(input.isKeyDown(GameInput.GameKey.RIGHT)) {
-                ship.direction = Direction.UPRIGHT;
+                ship.direction = Direction.NORTHEAST;
             } else if(!input.isKeyDown(GameInput.GameKey.DOWN)) {
-                ship.direction = Direction.UP;
+                ship.direction = Direction.NORTH;
             }
+
         } else if(input.isKeyDown(GameInput.GameKey.DOWN)) {
 
             if(input.isKeyDown(GameInput.GameKey.LEFT)) {
-                ship.direction = Direction.DOWNLEFT;
+                ship.direction = Direction.SOUTHWEST;
             } else if(input.isKeyDown(GameInput.GameKey.RIGHT)) {
-                ship.direction = Direction.DOWNRIGHT;
+                ship.direction = Direction.SOUTHEAST;
             } else if(!input.isKeyDown(GameInput.GameKey.UP)) {
-                ship.direction = Direction.DOWN;
+                ship.direction = Direction.SOUTH;
             }
+
         } else if(input.isKeyDown(GameInput.GameKey.LEFT)) {
+
             if(!input.isKeyDown(GameInput.GameKey.RIGHT)) {
-                ship.direction = Direction.LEFT;
+                ship.direction = Direction.WEST;
             }
+
         } else if(input.isKeyDown(GameInput.GameKey.RIGHT)) {
-            ship.direction = Direction.RIGHT;
+            ship.direction = Direction.EAST;
         }
     }
 }

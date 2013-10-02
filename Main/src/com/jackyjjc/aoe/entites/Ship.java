@@ -13,12 +13,14 @@ public class Ship {
     public Direction direction;
     public Animator animator;
     public int speed;
+    public int excessMovement;
 
     public Ship(Point loc, Direction dir, Animator ani) {
         this.location = loc;
         this.direction = dir;
         this.animator = ani;
         this.speed = 8;
+        this.excessMovement = 0;
     }
 
 

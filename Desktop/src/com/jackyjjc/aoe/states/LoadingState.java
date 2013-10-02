@@ -1,6 +1,7 @@
 package com.jackyjjc.aoe.states;
 
 import com.badlogic.gdx.Gdx;
+import com.jackyjjc.aoe.DesktopMasterScreen;
 import com.jackyjjc.aoe.GameGraphics;
 import com.jackyjjc.aoe.game.GameInput;
 import com.jackyjjc.aoe.view.ResourceManager;
@@ -15,20 +16,18 @@ import static com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 public class LoadingState extends AbstractState {
 
     private DecimalFormat progressFormat;
-    private ResourceManager resourceManager;
 
     private static final String LOADING_TEXT = "Loading";
     private String loadingStr;
     private String percentageStr;
     private int numDots;
 
-    public LoadingState(ResourceManager rm) {
-        this.resourceManager = rm;
+    public LoadingState() {
         this.progressFormat = new DecimalFormat("#.##");
     }
 
     @Override
-    public void init(ResourceManager rm) {
+    public void init() {
 
         Gdx.app.log(getClass().getCanonicalName(), "Enter State");
 
@@ -62,15 +61,15 @@ public class LoadingState extends AbstractState {
     public void update(GameInput input) {
 
         /*Load all the sprite and external resources first*/
-        boolean finished = resourceManager.update();
+        boolean finished = ResourceManager.get().update();
 
         if(finished) {
             Gdx.app.log(getClass().getCanonicalName(), "Loading resources Finish");
             aoe.init();
-            enterState(DesktopMasterScreen.StateType.MAIN_MENU);
+            enterState(StateManager.StateType.MAIN_MENU);
         }
 
-        percentageStr = progressFormat.format(resourceManager.getProgress() * 100) + "%";
+        percentageStr = progressFormat.format(ResourceManager.get().getProgress() * 100) + "%";
         this.loadingStr = LOADING_TEXT;
         for (int i = 0; i < numDots; i++) {
             loadingStr += ".";

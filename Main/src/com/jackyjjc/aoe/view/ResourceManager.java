@@ -31,7 +31,7 @@ public class ResourceManager {
         this.assetManager = new AssetManager();
         this.path = Gdx.files.internal("assets").path() + "/";
 
-        this.gameAnimationMap = new HashMap<String, GameAnimation>();
+        this.gameAnimationMap = new HashMap<>();
     }
 
     public Texture getTexture(String name) {

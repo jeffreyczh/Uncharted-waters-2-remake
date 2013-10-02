@@ -6,7 +6,7 @@ import com.jackyjjc.aoe.game.AOE;
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public interface DisplayManager {
+public interface IDisplayManager {
 
     void init(AOE aoe);
 
