@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class ShipFactory {
 
-    private HashMap<String, ShipStatus> ships;
+    private HashMap<String, ShipStats> ships;
 
     private ShipFactory() {};
 
@@ -24,7 +24,7 @@ public class ShipFactory {
         return factory;
     }
 
-    public ShipStatus get(String name) {
+    public ShipStats get(String name) {
 
         if(!this.ships.containsKey(name)) {
             Log.warning("searching ship status for invalid ship name");

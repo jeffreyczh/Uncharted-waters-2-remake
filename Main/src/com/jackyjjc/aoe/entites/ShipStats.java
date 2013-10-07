@@ -3,7 +3,7 @@ package com.jackyjjc.aoe.entites;
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
-public class ShipStatus {
+public class ShipStats {
 
     public String name;
     public int minCrew;
