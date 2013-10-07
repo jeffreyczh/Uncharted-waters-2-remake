@@ -1,11 +1,10 @@
 package com.jackyjjc.aoe.game;
 
-import com.jackyjjc.aoe.components.Direction;
 import com.jackyjjc.aoe.entites.Ship;
 import com.jackyjjc.aoe.world.Point;
+import com.jackyjjc.aoe.world.World;
 import com.jackyjjc.aoe.world.WorldEntityList;
 import com.jackyjjc.aoe.world.WorldViewPort;
-import com.jackyjjc.aoe.world.World;
 
 import java.util.List;
 

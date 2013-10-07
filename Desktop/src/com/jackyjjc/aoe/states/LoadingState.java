@@ -1,7 +1,6 @@
 package com.jackyjjc.aoe.states;
 
 import com.badlogic.gdx.Gdx;
-import com.jackyjjc.aoe.DesktopMasterScreen;
 import com.jackyjjc.aoe.GameGraphics;
 import com.jackyjjc.aoe.game.GameInput;
 import com.jackyjjc.aoe.view.ResourceManager;

@@ -1,18 +1,19 @@
 package com.jackyjjc.aoe.states;
 
 import com.badlogic.gdx.Gdx;
-import com.jackyjjc.aoe.DesktopMasterScreen;
 import com.jackyjjc.aoe.GameGraphics;
 import com.jackyjjc.aoe.game.GameInput;
-import com.jackyjjc.aoe.view.ResourceManager;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
  */
 public class MainMenuState extends AbstractState {
 
+    private boolean set;
+
     @Override
     public void init() {
+        set = false;
         Gdx.app.log(getClass().getCanonicalName(), "Enter State");
     }
 
@@ -22,6 +23,9 @@ public class MainMenuState extends AbstractState {
 
     @Override
     public void update(GameInput input) {
-        enterState(StateManager.StateType.PLAY);
+        if(!set) {
+            enterState(StateManager.StateType.PLAY);
+            set = true;
+        }
     }
 }

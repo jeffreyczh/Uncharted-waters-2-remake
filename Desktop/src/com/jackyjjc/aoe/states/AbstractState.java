@@ -1,6 +1,5 @@
 package com.jackyjjc.aoe.states;
 
-import com.jackyjjc.aoe.DesktopMasterScreen;
 import com.jackyjjc.aoe.GameGraphics;
 import com.jackyjjc.aoe.game.AOE;
 import com.jackyjjc.aoe.game.GameInput;

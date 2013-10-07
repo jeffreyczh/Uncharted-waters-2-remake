@@ -2,9 +2,9 @@ package com.jackyjjc.aoe.states;
 
 import com.badlogic.gdx.Gdx;
 import com.jackyjjc.aoe.GameGraphics;
-import com.jackyjjc.aoe.world.WorldMapRenderer;
 import com.jackyjjc.aoe.game.GameInput;
 import com.jackyjjc.aoe.view.ResourceManager;
+import com.jackyjjc.aoe.world.WorldMapRenderer;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
@@ -18,7 +18,8 @@ public class GamePlayState extends AbstractState {
 
         Gdx.app.log(getClass().getCanonicalName(), "Enter State");
 
-        this.worldMapRenderer = new WorldMapRenderer(aoe.worldViewPort,
+        this.worldMapRenderer = new WorldMapRenderer(aoe.calendar,
+                                                     aoe.worldViewPort,
                                                      aoe.worldEntityList,
                                                      ResourceManager.get().getTexture("tileset.png"), 16);
     }

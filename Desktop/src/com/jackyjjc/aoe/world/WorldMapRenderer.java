@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jackyjjc.aoe.GameGraphics;
 import com.jackyjjc.aoe.SeaEntityRenderer;
+import com.jackyjjc.aoe.game.GameCalendar;
 
 /**
  * @author Junjie CHEN(jacky.jjchen@gmail.com)
@@ -21,6 +22,7 @@ public class WorldMapRenderer {
     private TextureRegion[][] tileAtlas;
     private int pixelsPerTile;
 
+    private GameCalendar calendar;
     private WorldViewPort worldViewPort;
 
     /**
@@ -28,8 +30,9 @@ public class WorldMapRenderer {
      */
     private int windowHeight;
 
-    public WorldMapRenderer(WorldViewPort a, WorldEntityList e, Texture t, int pixelsPerTile) {
+    public WorldMapRenderer(GameCalendar c, WorldViewPort a, WorldEntityList e, Texture t, int pixelsPerTile) {
 
+        this.calendar = c;
         this.worldViewPort = a;
         this.windowHeight = Gdx.graphics.getHeight();
 
@@ -55,6 +58,7 @@ public class WorldMapRenderer {
         }
 
         g.drawText(worldViewPort.topLeft.x() + "," + worldViewPort.topLeft.y(), 10, windowHeight - 20);
+        g.drawText(calendar.getTimeString(), 30, 30);
         g.spriteBatch.end();
 
         /*Render sea entity on top of the map*/

@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.jackyjjc.aoe.game.AOE;
 import com.jackyjjc.aoe.game.GameInput;
-import com.jackyjjc.aoe.states.*;
+import com.jackyjjc.aoe.states.AbstractState;
+import com.jackyjjc.aoe.states.StateManager;
 import com.jackyjjc.aoe.view.IDisplayManager;
 
 

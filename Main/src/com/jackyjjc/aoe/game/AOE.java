@@ -10,6 +10,8 @@ import com.jackyjjc.aoe.world.*;
  */
 public class AOE extends Game {
 
+    public GameCalendar calendar;
+
     public World world;
     public WorldViewPort worldViewPort;
     public WorldEntityList worldEntityList;
@@ -34,6 +36,8 @@ public class AOE extends Game {
 
     public void init() {
 
+        this.calendar = new GameCalendar();
+
         /*Point must be init before initializing other things*/
         this.world = WorldFactory.buildWorld(Gdx.files.internal("assets/worldmap").file());
         Point.init(this.world.WIDTH, this.world.HEIGHT);
@@ -48,7 +52,9 @@ public class AOE extends Game {
 
     public void update(GameInput input) {
 
-        humanController.update(input);
+        this.calendar.update();
+
+        this.humanController.update(input);
 
         /*update the movement of all the ships*/
         this.shipMovementController.update();
